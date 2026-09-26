@@ -1,4 +1,4 @@
-﻿# MA Decision Register — decision form
+# MA Decision Register — decision form
 
 A form with the 13 register lines that need an answer. People sign in with just a username (no password), choose Accept / Edit / Reject for each line, add notes, and submit.
 

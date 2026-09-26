@@ -14,12 +14,19 @@ const json = (body, status = 200) =>
 const b64 = s => { let x = ''; new TextEncoder().encode(s).forEach(c => (x += String.fromCharCode(c))); return btoa(x); };
 const unb64 = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g, '')), c => c.charCodeAt(0)));
 
+// Tolerate stray spaces, line breaks or quotes pasted around/inside the secret
+const cleanToken = t => {
+  const s = String(t || '').replace(/[\s"']/g, '');
+  const m = s.match(/(github_pat_[A-Za-z0-9_]+|gh[pousr]_[A-Za-z0-9]+)/);
+  return m ? m[1] : s;
+};
+
 function gh(env, path, init = {}) {
   return fetch(`https://api.github.com/repos/${env.REPO}/contents/${path}`, {
     ...init,
     headers: {
       Accept: 'application/vnd.github+json',
-      Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+      Authorization: `Bearer ${cleanToken(env.GITHUB_TOKEN)}`,
       'User-Agent': 'ma-decision-register',
       'Content-Type': 'application/json',
       ...(init.headers || {}),
@@ -30,7 +37,7 @@ function gh(env, path, init = {}) {
 async function readFile(env, path) {
   const r = await gh(env, `${path}?ref=${env.BRANCH}`);
   if (r.status === 404) return { data: null, sha: null };
-  if (!r.ok) throw new Error(`GitHub read ${r.status}`);
+  if (!r.ok) throw new Error(`GitHub read ${r.status}: ${(await r.text()).slice(0, 200)}`);
   const j = await r.json();
   return { data: JSON.parse(unb64(j.content)), sha: j.sha };
 }
@@ -51,6 +58,20 @@ export default {
   async fetch(req, env) {
     if (req.method === 'OPTIONS') return new Response(null, { headers: cors });
     const url = new URL(req.url);
+    if (url.pathname === '/health') {
+      // Describes the secret's shape only — never its value
+      const raw = String(env.GITHUB_TOKEN || '');
+      const t = cleanToken(raw);
+      return json({
+        version: 3,
+        secretSet: raw.length > 0,
+        rawLength: raw.length,
+        cleanLength: t.length,
+        looksLikeToken: /^(github_pat_[A-Za-z0-9_]{50,}|gh[pousr]_[A-Za-z0-9]{30,})$/.test(t),
+        rawHasWhitespace: /\s/.test(raw),
+        rawHasOtherChars: /[^A-Za-z0-9_\s"']/.test(raw),
+      });
+    }
     const m = url.pathname.match(/^\/answers\/([^/]+)$/);
     if (!m) return json({ error: 'not found' }, 404);
     const user = decodeURIComponent(m[1]).toLowerCase();

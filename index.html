@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -60,13 +60,13 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px soli
  <h1>Decisions for Nawaf</h1>
  <p class="intro">These are the lines about your time, your job and both founders' shares. Baraa's position is written in each line. For each one choose <b>Accept</b>, <b>Edit</b> (write how it should read, or your answer to an open question) or <b>Reject</b>. Add a note if you want. When all 13 are answered, press <b>Submit</b>.</p>
  <form class="submit" id="signin" hidden>
-  <label for="uname" style="font-size:15px;color:var(--label)"><b>Sign up or sign in with a username</b> â€” no password. Use the same username later to see or change your answers.</label>
+  <label for="uname" style="font-size:15px;color:var(--label)"><b>Sign up or sign in with a username</b> — no password. Use the same username later to see or change your answers.</label>
   <input type="text" id="uname" placeholder="e.g. nawaf" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="30">
   <button class="primary" id="go">Continue</button>
   <div class="msg" id="smsg"></div>
  </form>
  <div id="form" hidden>
-  <div class="msg" style="margin:4px 0">Signed in as <b id="who"></b> Â· <button class="link" id="out" type="button">Switch user</button></div>
+  <div class="msg" style="margin:4px 0">Signed in as <b id="who"></b> · <button class="link" id="out" type="button">Switch user</button></div>
   <div class="prog"><div class="bar"><i id="barI"></i></div><span id="progT"></span></div>
   <div id="list"></div>
   <div class="submit">
@@ -75,7 +75,7 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px soli
   </div>
  </div>
  <div class="done" id="done" hidden>
-  <h2>Submitted â€” thank you</h2>
+  <h2>Submitted — thank you</h2>
   <div class="msg" id="doneT"></div>
   <ul class="sum" id="sum"></ul>
   <p><button class="link" id="again">Change my answers</button></p>
@@ -85,16 +85,16 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px soli
 const TOPICS={"07":"Sales","09":"Money","11":"Legal and admin","12":"Baraa and Nawaf"};
 const LN={P:'Provisional',O:'Open'};
 const ROWS=[
-{id:"N07.01",t:"07",l:"O",x:"How many contacts the list holds â€” Nawaf writes it in P1"},
+{id:"N07.01",t:"07",l:"O",x:"How many contacts the list holds — Nawaf writes it in P1"},
 {id:"N09.01",t:"09",l:"O",x:"The seed repayment order between the two founders"},
 {id:"N09.02",t:"09",l:"O",x:"When founders may start taking money out, and in what form"},
 {id:"N11.01",t:"11",l:"P",x:"The founders' documents are signed, and reviewed by Saudi legal and tax advisers"},
 {id:"N11.02",t:"11",l:"P",x:"A separate leaver rule, worded by the Saudi advisers"},
-{id:"N12.01",t:"12",l:"O",x:"Nawaf's job on Topic 12 page 06, widened on 24 Sep â€” he adds his own lines"},
-{id:"N12.02",t:"12",l:"P",x:"Three expectations: a reply within an agreed time, a warning before peaks, a short regular update â€” trust first"},
+{id:"N12.01",t:"12",l:"O",x:"Nawaf's job on Topic 12 page 06, widened on 24 Sep — he adds his own lines"},
+{id:"N12.02",t:"12",l:"P",x:"Three expectations: a reply within an agreed time, a warning before peaks, a short regular update — trust first"},
 {id:"N12.03",t:"12",l:"O",x:"Nawaf's own form: his availability and what he expects from Baraa"},
-{id:"N12.04",t:"12",l:"P",x:"Shares vest over four years with a one-year cliff, for both â€” Baraa's answer, not discussed on 24 Sep"},
-{id:"N12.05",t:"12",l:"O",x:"Does anything move the 60 / 40 later â€” results at each band, or a yearly review?"},
+{id:"N12.04",t:"12",l:"P",x:"Shares vest over four years with a one-year cliff, for both — Baraa's answer, not discussed on 24 Sep"},
+{id:"N12.05",t:"12",l:"O",x:"Does anything move the 60 / 40 later — results at each band, or a yearly review?"},
 {id:"N12.06",t:"12",l:"O",x:"Whether the 15% commission to Nawaf stays, now that he is a fully operating founder"},
 {id:"N12.07",t:"12",l:"P",x:"The third party's money counts as Baraa's own cash"},
 {id:"N12.08",t:"12",l:"P",x:"Baraa is the second contact on every client"}];
@@ -109,7 +109,7 @@ const isDone=id=>{const a=ans[id]||{};return a.s==='a'||a.s==='r'||(a.s==='e'&&(
 function render(){
  let h='',last='';
  for(const r of ROWS){
-  if(r.t!==last){h+=`<h2>${r.t} Â· ${TOPICS[r.t]}</h2>`;last=r.t}
+  if(r.t!==last){h+=`<h2>${r.t} · ${TOPICS[r.t]}</h2>`;last=r.t}
   const a=ans[r.id]||{};
   h+=`<div class="card" data-id="${r.id}" data-s="${a.s||''}">
    <div class="head"><span class="id">${r.id}</span><span class="lb ${r.l}">${LN[r.l]}</span></div>
@@ -159,10 +159,10 @@ async function signIn(name){
 $('#signin').onsubmit=async ev=>{
  ev.preventDefault();const m=$('#smsg');m.className='msg';
  const name=$('#uname').value.trim().toLowerCase();
- if(!/^[a-z0-9_-]{2,30}$/.test(name)){m.className='msg err';m.textContent='Use 2â€“30 letters, numbers, - or _ (no spaces).';return}
- $('#go').disabled=true;m.textContent='Loadingâ€¦';
+ if(!/^[a-z0-9_-]{2,30}$/.test(name)){m.className='msg err';m.textContent='Use 2–30 letters, numbers, - or _ (no spaces).';return}
+ $('#go').disabled=true;m.textContent='Loading…';
  try{await signIn(name);store.set('user',name);m.textContent=''}
- catch(e){m.className='msg err';m.textContent='Could not reach the server â€” '+e.message}
+ catch(e){m.className='msg err';m.textContent='Could not reach the server — '+e.message}
  $('#go').disabled=false;
 };
 $('#out').onclick=()=>{store.del('user');user=null;$('#form').hidden=true;$('#done').hidden=true;$('#signin').hidden=false;$('#uname').value='';$('#uname').focus()};
@@ -170,21 +170,21 @@ $('#send').onclick=async()=>{
  const msg=$('#msg');msg.className='msg';
  const miss=ROWS.filter(r=>!isDone(r.id));
  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('missing',miss.some(r=>r.id===c.dataset.id)));
- if(miss.length){msg.className='msg err';msg.textContent=`Please answer all lines first â€” ${miss.length} left (${miss.map(r=>r.id).join(', ')}).`;document.querySelector('.card.missing').scrollIntoView({behavior:'smooth',block:'center'});return}
- const btn=$('#send');btn.disabled=true;msg.textContent='Submittingâ€¦';
+ if(miss.length){msg.className='msg err';msg.textContent=`Please answer all lines first — ${miss.length} left (${miss.map(r=>r.id).join(', ')}).`;document.querySelector('.card.missing').scrollIntoView({behavior:'smooth',block:'center'});return}
+ const btn=$('#send');btn.disabled=true;msg.textContent='Submitting…';
  try{
   const lines={};
   for(const r of ROWS){const a=ans[r.id];lines[r.id]={s:a.s};if(a.s==='e')lines[r.id].edit=a.edit.trim();if((a.note||'').trim())lines[r.id].note=a.note.trim()}
   submitted=await api('PUT',{submitted:true,lines});
   store.del('draft-'+user);showDone();
- }catch(e){msg.className='msg err';msg.textContent='Not saved â€” '+(e.message||'could not reach the server')+'. Try again.'}
+ }catch(e){msg.className='msg err';msg.textContent='Not saved — '+(e.message||'could not reach the server')+'. Try again.'}
  btn.disabled=false;
 };
 const SN={a:'Accepted',e:'Edited',r:'Rejected'};
 function showDone(){
  $('#form').hidden=true;$('#done').hidden=false;window.scrollTo(0,0);
  $('#doneT').textContent=`Saved for ${user} on ${new Date(submitted.submitted_at).toLocaleString()}.`;
- $('#sum').innerHTML=ROWS.map(r=>{const a=submitted.lines[r.id]||{};return `<li><b>${r.id} Â· ${SN[a.s]||'â€”'}</b>${a.s==='e'?' â€” '+esc(a.edit):''}${a.note?`<br><span class="msg">Note: ${esc(a.note)}</span>`:''}</li>`}).join('');
+ $('#sum').innerHTML=ROWS.map(r=>{const a=submitted.lines[r.id]||{};return `<li><b>${r.id} · ${SN[a.s]||'—'}</b>${a.s==='e'?' — '+esc(a.edit):''}${a.note?`<br><span class="msg">Note: ${esc(a.note)}</span>`:''}</li>`}).join('');
 }
 $('#again').onclick=()=>{ans=JSON.parse(JSON.stringify(submitted.lines));keep();$('#done').hidden=true;$('#form').hidden=false;$('#msg').textContent='';render()};
 
