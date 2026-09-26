@@ -29,10 +29,11 @@
   "synesis": "no",
   "noesis": "no",
   "kairos": "like",
-  "daedalus": "no"
+  "daedalus": "no",
+  "tropos": "no"
  },
  "decision": {},
  "submitted": false,
  "submitted_at": null,
- "updated_at": "2026-09-26T17:17:44.432Z"
+ "updated_at": "2026-09-26T17:17:47.467Z"
 }
