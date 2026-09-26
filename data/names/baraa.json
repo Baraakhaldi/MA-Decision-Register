@@ -54,9 +54,12 @@
   "top0": "phanes",
   "top1": "orama",
   "top2": "noesis",
-  "sloganPick": "Made to be seen."
+  "sloganPick": "Made to be seen.",
+  "voice": [
+   "Calm"
+  ]
  },
  "submitted": false,
  "submitted_at": null,
- "updated_at": "2026-09-26T16:40:04.790Z"
+ "updated_at": "2026-09-26T16:40:23.076Z"
 }
