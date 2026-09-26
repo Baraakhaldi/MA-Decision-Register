@@ -51,9 +51,10 @@
  },
  "decision": {
   "top0": "moment & method",
-  "top1": "kairos"
+  "top1": "kairos",
+  "top2": "athar"
  },
  "submitted": false,
  "submitted_at": null,
- "updated_at": "2026-09-26T17:18:54.868Z"
+ "updated_at": "2026-09-26T17:19:06.163Z"
 }
