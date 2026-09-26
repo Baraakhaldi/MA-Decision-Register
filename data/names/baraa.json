@@ -51,9 +51,10 @@
   "noesis": "like"
  },
  "decision": {
-  "top0": "phanes"
+  "top0": "phanes",
+  "top1": "noesis"
  },
  "submitted": false,
  "submitted_at": null,
- "updated_at": "2026-09-26T16:38:51.909Z"
+ "updated_at": "2026-09-26T16:39:02.638Z"
 }
