@@ -1,9 +1,11 @@
-# MA Decision Register — decision form
+# MA Decision Register — company name questionnaire
 
-A form with the 13 register lines that need an answer. People sign in with just a username (no password), choose Accept / Edit / Reject for each line, add notes, and submit.
+The company-name candidates page, turned into a questionnaire for Baraa and Nawaf.
 
-**Live form:** https://baraakhaldi.github.io/MA-Decision-Register/
+**Live page:** https://baraakhaldi.github.io/MA-Decision-Register/
 
-Answers are saved to `data/answers/<username>.json` in this repo by a small Cloudflare Worker (`worker/`). The Worker holds the GitHub token as the secret `GITHUB_TOKEN`; no token is needed in the browser.
+- Pick **Baraa** or **Nawaf** at the top.
+- Vote **Like / Maybe / No** on every candidate; the other founder's vote shows next to yours.
+- Section 12 asks for a top 3, a favourite slogan, brand-identity choices, comments and new names, then **Submit**.
 
-Anyone who knows a username can view or change that person's answers, and the answer files are public.
+Votes save automatically through a Cloudflare Worker (`worker/`) to `data/names/baraa.json` and `data/names/nawaf.json`. The earlier decision-register answers stay in `data/answers/`.

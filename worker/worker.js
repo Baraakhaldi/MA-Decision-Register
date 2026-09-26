@@ -2,6 +2,7 @@
 // The GitHub token lives only in Cloudflare as the secret GITHUB_TOKEN.
 const ORIGIN = 'https://baraakhaldi.github.io';
 const USER_RE = /^[a-z0-9_-]{2,30}$/;
+const FOUNDERS = ['baraa', 'nawaf'];
 
 const cors = {
   'Access-Control-Allow-Origin': ORIGIN,
@@ -63,7 +64,7 @@ export default {
       const raw = String(env.GITHUB_TOKEN || '');
       const t = cleanToken(raw);
       return json({
-        version: 3,
+        version: 4,
         secretSet: raw.length > 0,
         rawLength: raw.length,
         cleanLength: t.length,
@@ -72,6 +73,34 @@ export default {
         rawHasOtherChars: /[^A-Za-z0-9_\s"']/.test(raw),
       });
     }
+    // Company-name questionnaire: only baraa and nawaf, saved to data/names/<who>.json
+    if (url.pathname === '/names' && req.method === 'GET') {
+      try {
+        const [b, n] = await Promise.all(FOUNDERS.map(w => readFile(env, `data/names/${w}.json`)));
+        return json({ baraa: b.data, nawaf: n.data });
+      } catch (e) {
+        return json({ error: String(e.message || e) }, 502);
+      }
+    }
+    const nm = url.pathname.match(/^\/names\/([^/]+)$/);
+    if (nm) {
+      const who = decodeURIComponent(nm[1]).toLowerCase();
+      if (!FOUNDERS.includes(who)) return json({ error: 'only baraa or nawaf' }, 400);
+      if (req.method !== 'PUT') return json({ error: 'method not allowed' }, 405);
+      try {
+        const text = await req.text();
+        if (text.length > 100000) return json({ error: 'too large' }, 413);
+        const inb = JSON.parse(text);
+        if (!inb || typeof inb.votes !== 'object') return json({ error: 'bad body' }, 400);
+        const data = { who, votes: inb.votes, decision: inb.decision || {}, submitted: !!inb.submitted,
+          submitted_at: inb.submitted ? inb.submitted_at || new Date().toISOString() : null, updated_at: new Date().toISOString() };
+        await writeFile(env, `data/names/${who}.json`, data, `${who}: ${data.submitted ? 'submitted' : 'updated'} name votes`);
+        return json(data);
+      } catch (e) {
+        return json({ error: String(e.message || e) }, 502);
+      }
+    }
+
     const m = url.pathname.match(/^\/answers\/([^/]+)$/);
     if (!m) return json({ error: 'not found' }, 404);
     const user = decodeURIComponent(m[1]).toLowerCase();

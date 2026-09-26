@@ -1,198 +1,916 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Decisions for Nawaf</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Company Name Candidates</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:light;
---bg:#f2f2f7;--surface:#fff;--label:#000;--label2:rgba(60,60,67,.6);--sep:rgba(60,60,67,.29);
---fill3:rgba(118,118,128,.12);--fill4:rgba(116,116,128,.08);--tint:#0088ff;--link:#1e6ef4;
---blue:#0088ff;--blueA:#1e6ef4;--orange:#ff8d28;--orangeA:#c55300;--green:#34c759;--greenA:#008932;--red:#ff383c;--redA:#e9152d;
---sans:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,"Segoe UI","Helvetica Neue",sans-serif}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#000;--surface:#1c1c1e;--label:#fff;--label2:rgba(235,235,245,.6);--sep:rgba(84,84,88,.6);
---fill3:rgba(118,118,128,.24);--fill4:rgba(116,116,128,.18);--tint:#0091ff;--link:#5cb8ff;--blue:#0091ff;--blueA:#5cb8ff;--orange:#ff9230;--orangeA:#ffa056;--green:#30d158;--greenA:#4ad968;--red:#ff4245;--redA:#ff6165}}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#000;--surface:#1c1c1e;--label:#fff;--label2:rgba(235,235,245,.6);--sep:rgba(84,84,88,.6);
---fill3:rgba(118,118,128,.24);--fill4:rgba(116,116,128,.18);--tint:#0091ff;--link:#5cb8ff;--blue:#0091ff;--blueA:#5cb8ff;--orange:#ff9230;--orangeA:#ffa056;--green:#30d158;--greenA:#4ad968;--red:#ff4245;--redA:#ff6165}
-*{box-sizing:border-box}
-body{margin:0;padding:0 16px 80px;background:var(--bg);color:var(--label);font:17px/22px var(--sans);-webkit-font-smoothing:antialiased}
-main{max-width:760px;margin:0 auto}
-h1{font:700 28px/34px var(--sans);margin:32px 0 6px}
-.intro{color:var(--label2);font-size:15px;line-height:21px;margin:0 0 8px}
-.intro b{color:var(--label)}
-.prog{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--label2)}
-.bar{flex:1;height:6px;border-radius:3px;background:var(--fill3);overflow:hidden}
-.bar i{display:block;height:100%;background:var(--green);transition:width .3s}
-h2{font:600 13px var(--sans);text-transform:uppercase;letter-spacing:.4px;color:var(--label2);margin:24px 4px 8px}
-.card{background:var(--surface);border-radius:12px;padding:14px;margin-bottom:10px;display:grid;gap:10px;border-left:3px solid transparent}
-.card[data-s="a"]{border-left-color:var(--green)}.card[data-s="e"]{border-left-color:var(--orange)}.card[data-s="r"]{border-left-color:var(--red)}
-.card.missing{outline:2px solid var(--red)}
-.head{display:flex;gap:10px;align-items:baseline}
-.id{font:500 13px ui-monospace,"SF Mono",Menlo,monospace;color:var(--label2)}
-.lb{font:600 11px/16px var(--sans);letter-spacing:.3px;text-transform:uppercase;border-radius:5px;padding:1px 6px}
-.lb.P{background:color-mix(in srgb,var(--blue) 16%,transparent);color:var(--blueA)}
-.lb.O{background:color-mix(in srgb,var(--orange) 18%,transparent);color:var(--orangeA)}
-.tx{font-size:16px;line-height:22px}
-.acts{display:flex;gap:6px;flex-wrap:wrap}
-.acts button{font:600 14px var(--sans);border:1px solid var(--sep);background:var(--surface);color:var(--label);border-radius:8px;padding:0 14px;min-height:34px;cursor:pointer}
-.acts button[aria-pressed="true"][data-v="a"]{background:var(--green);border-color:var(--green);color:#fff}
-.acts button[aria-pressed="true"][data-v="e"]{background:var(--orange);border-color:var(--orange);color:#fff}
-.acts button[aria-pressed="true"][data-v="r"]{background:var(--red);border-color:var(--red);color:#fff}
-label{font-size:12px;color:var(--label2)}
-textarea,input[type=text]{font:15px/20px var(--sans);color:var(--label);background:var(--fill4);border:1px solid var(--sep);border-radius:9px;padding:7px 10px;width:100%}
-textarea{resize:vertical;min-height:38px}
-.field{display:grid;gap:4px}
-button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var(--tint) 45%,transparent);outline-offset:1px}
-.submit{margin-top:22px;background:var(--surface);border-radius:12px;padding:16px;display:grid;gap:12px}
-.primary{font:600 17px var(--sans);border:0;border-radius:12px;min-height:48px;background:var(--tint);color:#fff;cursor:pointer}
-.primary:disabled{opacity:.5;cursor:default}
-.msg{font-size:14px;color:var(--label2)}
-.msg.err{color:var(--redA)}
-.done{background:var(--surface);border-radius:12px;padding:20px;margin-top:22px}
-.done h2{margin:0 0 6px;font:700 20px var(--sans);color:var(--label);text-transform:none;letter-spacing:0}
-.sum{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:8px;font-size:15px}
-.sum b{font-weight:600}
-.link{font:14px var(--sans);color:var(--link);background:none;border:0;padding:0;cursor:pointer}
+:root{
+  --bg:#050505; --panel:#0c0c0c; --panel2:#111; --line:#2a2a2a; --line2:#3a3a3a;
+  --tx:#f2f2f2; --mut:#8d8d8d; --dim:#5a5a5a; --red:#ff3131; --red2:#b3191b; --redbg:rgba(255,49,49,.10);
+  --mono:'Share Tech Mono',ui-monospace,Consolas,monospace; --disp:'Rajdhani','Segoe UI',sans-serif; --ar:'IBM Plex Sans Arabic',Tahoma,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--disp);font-size:17px;line-height:1.45;
+  background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:22px 22px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ar{font-family:var(--ar);direction:rtl;unicode-bidi:isolate}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+/* top HUD */
+.hud{border-bottom:1px solid var(--line);background:rgba(5,5,5,.92);position:sticky;top:0;z-index:5;backdrop-filter:blur(4px)}
+.hud .wrap{display:flex;gap:18px;align-items:center;height:52px;font-family:var(--mono);font-size:12px;color:var(--mut);letter-spacing:.08em;overflow-x:auto;white-space:nowrap}
+.hud b{color:var(--tx);font-weight:400}
+.hud .dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);display:inline-block;margin-right:8px;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+.hud nav{margin-left:auto;display:flex;gap:4px}
+.hud nav a{color:var(--mut);text-decoration:none;padding:4px 8px;border:1px solid transparent}
+.hud nav a:hover{color:var(--tx);border-color:var(--line2)}
+/* hero */
+.hero{padding:56px 0 40px;position:relative}
+.tag{display:inline-block;background:var(--red);color:#000;font-family:var(--mono);font-size:13px;letter-spacing:.18em;padding:3px 12px;text-transform:uppercase}
+.tag.o{background:transparent;color:var(--red);border:1px solid var(--red)}
+h1{font-size:clamp(40px,7vw,84px);font-weight:700;letter-spacing:.04em;line-height:.95;margin:18px 0 12px;text-transform:uppercase}
+h1 span{color:var(--red)}
+.lede{max-width:720px;color:var(--mut);font-size:19px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px}
+.stat{border:1px solid var(--line);background:var(--panel);padding:14px 16px;position:relative}
+.stat .k{font-family:var(--mono);font-size:11px;color:var(--mut);letter-spacing:.15em;text-transform:uppercase}
+.stat .v{font-size:38px;font-weight:600;line-height:1.1}
+.stat .v.r{color:var(--red)}
+.ticks{height:14px;margin-top:8px;background:repeating-linear-gradient(90deg,var(--line2) 0 1px,transparent 1px 6px)}
+.ticks i{display:block;height:100%;background:repeating-linear-gradient(90deg,var(--red) 0 1px,transparent 1px 6px)}
+/* corner brackets */
+.br{position:relative}
+.br::before,.br::after{content:"";position:absolute;width:12px;height:12px;border-color:var(--red);border-style:solid;pointer-events:none}
+.br::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.br::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+/* sections */
+section{padding:46px 0 10px;border-top:1px solid var(--line);scroll-margin-top:60px}
+.sh{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.sh .n{font-family:var(--mono);color:var(--red);font-size:14px}
+.sh h2{font-size:30px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.sh .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
+.sub{color:var(--mut);margin-bottom:22px;max-width:820px}
+.src{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;margin-bottom:14px}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);padding:16px 16px 14px;display:flex;flex-direction:column;gap:6px;break-inside:avoid}
+.card:hover{border-color:var(--line2);background:var(--panel2)}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.card .nm{font-size:25px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+.card .sc{font-size:18px;color:var(--mut)}
+.card .mn{font-size:15.5px;color:#cfcfcf}
+.card .ft{font-size:14.5px;color:var(--mut)}
+.chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;padding:2px 7px;border:1px solid var(--line2);color:var(--mut);white-space:nowrap;text-transform:uppercase}
+.chip.top{background:var(--red);border-color:var(--red);color:#000}
+.chip.short{border-color:var(--red);color:var(--red)}
+.chip.rej{border-color:var(--dim);color:var(--dim);text-decoration:line-through}
+.card.rej{opacity:.62}
+.card.star{border-color:var(--red2);box-shadow:0 0 0 1px rgba(255,49,49,.15),0 0 28px rgba(255,49,49,.12) inset}
+/* table */
+table{width:100%;border-collapse:collapse;font-size:15.5px;margin-bottom:10px}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mut);text-align:left;font-weight:400;text-transform:uppercase;border-bottom:1px solid var(--red2);padding:8px 10px}
+td{border-bottom:1px solid var(--line);padding:9px 10px;vertical-align:top}
+td:first-child{font-weight:700;letter-spacing:.05em;white-space:nowrap}
+tr:hover td{background:var(--panel2)}
+/* method flow */
+.flow{display:flex;flex-wrap:wrap;gap:0;align-items:stretch;margin:6px 0 22px}
+.step{flex:1 1 150px;border:1px solid var(--line);background:var(--panel);padding:12px;position:relative;margin-right:18px;margin-bottom:12px}
+.step:not(:last-child)::after{content:"";position:absolute;right:-19px;top:50%;width:18px;height:1px;background:var(--red)}
+.step .g{font-family:var(--mono);color:var(--red);font-size:12px}
+.step .w{font-size:21px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.step .d{font-size:14px;color:var(--mut)}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{border:1px solid var(--line);background:var(--panel);padding:16px 18px}
+.box h3{font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:.16em;color:var(--red);text-transform:uppercase;margin-bottom:10px}
+.box li{margin:0 0 6px 18px;color:#d6d6d6;font-size:15.5px}
+.box p{color:#d6d6d6;font-size:15.5px}
+/* ranking */
+.rank{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.rk{border:1px solid var(--line);background:var(--panel);padding:18px 12px 16px;text-align:center}
+.rk svg{width:96px;height:96px;display:block;margin:0 auto 8px}
+.rk .nm{font-size:22px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.rk .ft{font-size:13.5px;color:var(--mut)}
+.rk.first{border-color:var(--red)}
+/* hero pick */
+.pick{display:grid;grid-template-columns:260px 1fr;gap:26px;align-items:center;border:1px solid var(--line);background:linear-gradient(90deg,rgba(255,49,49,.08),transparent 60%),var(--panel);padding:26px;margin-bottom:18px}
+.pick svg{width:100%;max-width:240px}
+.pick .big{font-size:64px;font-weight:700;letter-spacing:.08em;line-height:1;text-transform:uppercase}
+.pick .big small{font-size:26px;color:var(--mut);margin-left:12px;letter-spacing:0}
+.pick q{display:block;color:#ddd;font-size:18px;margin-top:10px;quotes:none}
+footer{border-top:1px solid var(--line);margin-top:50px;padding:22px 0 40px;font-size:13.5px;color:var(--mut)}
+footer .terms{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+footer b{color:var(--tx);font-weight:600}
+a{color:var(--red)}
+@media (max-width:820px){
+  .stats{grid-template-columns:repeat(2,1fr)} .twocol,.pick{grid-template-columns:1fr} .rank{grid-template-columns:repeat(2,1fr)}
+  footer .terms{grid-template-columns:1fr} .hud nav{display:none}
+}
+@media print{
+  body{background-image:none} .hud{position:static} section{break-before:auto} .card,.box,.rk,.step,.pick{break-inside:avoid}
+}
+.lb{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--red);text-transform:uppercase;margin-top:6px}
+.slg{border:1px solid var(--line);background:#080808;padding:8px 10px;margin-top:4px}
+.slg .lb{margin-top:0}
+.slg .en{font-size:18px;font-weight:600;color:var(--tx);line-height:1.2}
+.slg .sa{font-size:15px;color:#cfcfcf;text-align:right;margin-top:3px}
+.gl{border-left:2px solid var(--red2);padding:2px 0 2px 10px;margin-top:6px;font-size:14px;color:#bdbdbd;font-style:italic}
+.gl .lb{font-style:normal;margin-top:0}
+.gp{border:1px solid var(--line);background:var(--panel);padding:22px 22px 18px;margin-bottom:16px;break-inside:avoid}
+.gph{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}
+.gnm{font-size:44px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;line-height:1;margin-top:8px}
+.gnm .ar{font-size:26px;color:var(--mut);letter-spacing:0;margin-left:10px}
+.say{font-family:var(--mono);font-size:12px;color:var(--mut);letter-spacing:.1em;margin-top:6px}
+.voice{text-align:right;font-size:17px;font-weight:600;white-space:nowrap}
+.gcols{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+.gcols p,.gcols li{font-size:15px;color:#d6d6d6}
+.gcols ul{margin:4px 0 8px 18px}
+.gcols p{margin:3px 0 8px}
+.story{font-size:16.5px!important;color:var(--tx)!important;line-height:1.5}
+.sls li{font-weight:600;font-size:16px!important}
+.sls li.ar{text-align:right;list-style:none;margin-left:-18px}
+.warn{color:#ff8a8a!important}
+.tmpl{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.tmpl div{border:1px solid var(--line);background:var(--panel);padding:10px 12px;font-size:14px;color:var(--mut)}
+.tmpl b{display:block;color:var(--tx);font-size:16px}
+@media (max-width:820px){.gcols,.tmpl{grid-template-columns:1fr}.gph{flex-direction:column}.voice{text-align:left}}
+/* ===== questionnaire ===== */
+.whohud{display:flex;gap:6px;align-items:center}
+.whohud button,.seg button{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:transparent;color:var(--mut);border:1px solid var(--line2);padding:4px 10px;cursor:pointer}
+.whohud button[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#000}
+#saveSt{color:var(--mut)}
+.picker{border:1px solid var(--red);background:var(--redbg);padding:22px;margin:0 0 30px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.picker h3{font-size:24px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;flex:1 1 260px}
+.picker p{color:var(--mut);font-size:15px;margin-top:4px;font-weight:400;letter-spacing:0;text-transform:none}
+.picker button{font-family:var(--disp);font-size:26px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;min-width:160px;padding:12px 22px;background:var(--panel);color:var(--tx);border:1px solid var(--line2);cursor:pointer}
+.picker button:hover{border-color:var(--red);color:var(--red)}
+.qprog{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;color:var(--mut);letter-spacing:.1em;margin:0 0 26px}
+.qprog .ticks{flex:1;margin:0}
+.vote{display:flex;gap:6px;align-items:center;flex-wrap:wrap;border-top:1px dashed var(--line2);padding-top:10px;margin-top:6px}
+.vote button{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--tx);border:1px solid var(--line2);padding:6px 12px;min-height:32px;cursor:pointer}
+.vote button:hover{border-color:var(--mut)}
+.vote button[aria-pressed="true"][data-v="like"]{background:var(--red);border-color:var(--red);color:#000}
+.vote button[aria-pressed="true"][data-v="maybe"]{background:#d8d8d8;border-color:#d8d8d8;color:#000}
+.vote button[aria-pressed="true"][data-v="no"]{background:#2a2a2a;border-color:var(--dim);color:var(--mut);text-decoration:line-through}
+.vote .other{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--mut);text-transform:uppercase}
+.vote .other b{font-weight:400;color:var(--tx)}
+.vote .other b.like{color:var(--red)}
+td .vote{border:0;padding:0;margin:0;flex-wrap:nowrap}
+td .vote button{padding:4px 8px;min-height:28px;font-size:11px}
+td .vote .other{margin-left:6px;white-space:nowrap}
+.tscroll{overflow-x:auto}
+.tscroll table{min-width:980px}
+.card.voted-like{border-color:var(--red2)}
+.card.voted-no{opacity:.55}
+.dec{display:grid;gap:14px}
+.q{border:1px solid var(--line);background:var(--panel);padding:18px}
+.q h3{font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:.16em;color:var(--red);text-transform:uppercase;margin-bottom:6px}
+.q .hint{color:var(--mut);font-size:14.5px;margin-bottom:12px}
+.q label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--mut);text-transform:uppercase;margin:10px 0 4px}
+.q select,.q input[type=text],.q textarea{width:100%;background:#080808;color:var(--tx);border:1px solid var(--line2);padding:9px 10px;font-family:var(--disp);font-size:17px}
+.q textarea{min-height:80px;resize:vertical}
+.q input.ar,.q textarea.ar{text-align:right}
+.q select:focus,.q input:focus,.q textarea:focus,button:focus-visible{outline:2px solid var(--red);outline-offset:1px}
+.top3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label.o{display:inline-flex;gap:8px;align-items:center;margin:0;border:1px solid var(--line2);padding:7px 12px;cursor:pointer;font-family:var(--disp);font-size:16px;letter-spacing:.02em;text-transform:none;color:var(--tx)}
+.opts label.o:has(input:checked){border-color:var(--red);background:var(--redbg)}
+.opts input{accent-color:var(--red)}
+.sug{border-left:2px solid var(--red2);padding:4px 0 4px 10px;color:#bdbdbd;font-size:15px;font-style:italic;margin-bottom:6px}
+.submitbar{display:flex;gap:16px;align-items:center;flex-wrap:wrap;border:1px solid var(--red);padding:18px;background:var(--redbg)}
+.bigbtn{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--red);color:#000;border:0;padding:12px 30px;cursor:pointer}
+.bigbtn:disabled{opacity:.5;cursor:default}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cmp .box ol{margin-left:22px;color:#d6d6d6}
+.cmpt td:first-child{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--mut);text-transform:uppercase;font-weight:400;white-space:normal;width:22%}
+.lock{color:var(--mut);font-style:italic}
+@media (max-width:820px){.top3,.cmp{grid-template-columns:1fr}.picker button{flex:1}}
 </style>
 </head>
 <body>
-<main>
- <h1>Decisions for Nawaf</h1>
- <p class="intro">These are the lines about your time, your job and both founders' shares. Baraa's position is written in each line. For each one choose <b>Accept</b>, <b>Edit</b> (write how it should read, or your answer to an open question) or <b>Reject</b>. Add a note if you want. When all 13 are answered, press <b>Submit</b>.</p>
- <form class="submit" id="signin" hidden>
-  <label for="uname" style="font-size:15px;color:var(--label)"><b>Sign up or sign in with a username</b> — no password. Use the same username later to see or change your answers.</label>
-  <input type="text" id="uname" placeholder="e.g. nawaf" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="30">
-  <button class="primary" id="go">Continue</button>
-  <div class="msg" id="smsg"></div>
- </form>
- <div id="form" hidden>
-  <div class="msg" style="margin:4px 0">Signed in as <b id="who"></b> · <button class="link" id="out" type="button">Switch user</button></div>
-  <div class="prog"><div class="bar"><i id="barI"></i></div><span id="progT"></span></div>
-  <div id="list"></div>
-  <div class="submit">
-   <button class="primary" id="send">Submit</button>
-   <div class="msg" id="msg"></div>
+
+<div class="hud"><div class="wrap">
+  <span><span class="dot"></span><b>COMPANY NAME</b> // CANDIDATES</span>
+  <span>STATUS <b style="color:var(--red)">OPEN</b></span>
+  <span class="whohud">ANSWERING AS <button type="button" data-who="baraa">Baraa</button><button type="button" data-who="nawaf">Nawaf</button></span>
+  <span id="saveSt"></span>
+  <nav>
+    <a href="#brief">01</a><a href="#r1">02</a><a href="#r1c">03</a><a href="#greek">04</a><a href="#method">05</a><a href="#myth">06</a><a href="#muses">07</a><a href="#rejected">08</a><a href="#guide">09</a><a href="#rank">10</a><a href="#next">11</a><a href="#decide" style="color:var(--red)">12</a>
+  </nav>
+</div></div>
+
+<div class="wrap">
+
+<header class="hero">
+  <span class="tag">Name Candidates</span>
+  <h1>Every name <span>so far</span></h1>
+  <p class="lede">All the names put forward for the company in one place: the first ChatGPT rounds (Arabic and English, Greek words, the methodology names, Greek mythology) and the two Claude rounds. Nothing is decided yet, and none of these names has been legally cleared.</p>
+  <div class="stats">
+    <div class="stat br"><div class="k">Names listed</div><div class="v" id="cNames">—</div><div class="ticks"><i style="width:100%"></i></div></div>
+    <div class="stat br"><div class="k">Rounds</div><div class="v">06</div><div class="ticks"><i style="width:60%"></i></div></div>
+    <div class="stat br"><div class="k">Rejected groups</div><div class="v" id="cRej">—</div><div class="ticks"><i style="width:30%"></i></div></div>
+    <div class="stat br"><div class="k">Current top pick</div><div class="v r">MELETE</div><div class="ticks"><i style="width:90%"></i></div></div>
   </div>
- </div>
- <div class="done" id="done" hidden>
-  <h2>Submitted — thank you</h2>
-  <div class="msg" id="doneT"></div>
-  <ul class="sum" id="sum"></ul>
-  <p><button class="link" id="again">Change my answers</button></p>
- </div>
-</main>
+</header>
+
+<div class="picker br" id="picker" hidden>
+  <h3>Who is answering?<p>Vote Like, Maybe or No on every name, then fill in section 12 and submit. Votes save as you click, and each founder can see the other's votes.</p></h3>
+  <button type="button" data-who="baraa">Baraa</button>
+  <button type="button" data-who="nawaf">Nawaf</button>
+</div>
+<div class="qprog" id="qprog" hidden><span id="qprogT"></span><div class="ticks"><i id="qprogI" style="width:0"></i></div><a href="#decide">Go to decision ›</a></div>
+
+<!-- 01 BRIEF -->
+<section id="brief">
+  <div class="sh"><span class="n">01</span><h2>What the name must carry</h2><span class="rule"></span></div>
+  <p class="sub">Taken from the vault: Topic 02 Company definition, Topic 13 Future branches and the founders' meeting on 24 Sep.</p>
+  <div class="twocol">
+    <div class="box br"><h3>The company</h3><ul>
+      <li>An agency that handles an organisation's full digital workload. Event design is the first service line, not the whole company.</li>
+      <li>Every engagement can end with a guideline for what comes next.</li>
+      <li>Wants to be known for reliability, quality and understanding the Gulf market.</li>
+      <li>Later branches: a creator brand, consumer products, software, new regions, training.</li>
+    </ul></div>
+    <div class="box br"><h3>So the name should</h3><ul>
+      <li>Work in Arabic and English, and be easy to say in both.</li>
+      <li>Not lock the company into events, marketing, media or AI.</li>
+      <li>Stretch into a family: Studio, Digital, Labs, Ventures.</li>
+      <li>Be clear of existing Saudi trade names and trademarks (Ministry of Commerce and SAIP).</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- 02 ROUND 1 ChatGPT -->
+<section id="r1">
+  <div class="sh"><span class="n">02</span><h2>Round 1 · Arabic &amp; English</h2><span class="rule"></span></div>
+  <div class="src">Source: ChatGPT · read from the vault ZIP</div>
+  <p class="sub">The first shortlist. Mumtad was ChatGPT's strongest pick, with the tagline <span class="ar">من اللحظة إلى ما بعدها</span> "From the moment to what follows."</p>
+  <div class="grid" data-set="r1"></div>
+</section>
+
+<!-- 03 ROUND 1 Claude -->
+<section id="r1c">
+  <div class="sh"><span class="n">03</span><h2>Round 1 · Claude</h2><span class="rule"></span></div>
+  <div class="src">Source: Claude · read from the vault folder</div>
+  <p class="sub">Arabic words that are easy to say in English, English names built around an idea, and coined blends. Top three from this round: Minassa, Wasm, Athar.</p>
+  <div class="grid" data-set="r1c"></div>
+</section>
+
+<!-- 04 GREEK -->
+<section id="greek">
+  <div class="sh"><span class="n">04</span><h2>Greek words</h2><span class="rule"></span></div>
+  <div class="src">Source: ChatGPT · Greek dictionary search</div>
+  <p class="sub">Ancient Greek words for the journey from thought to form to execution. The literal Modern Greek words for "creativity" and "inspiration" (Dimiourgikotita, Empnefsi) are accurate but too awkward to use as company names.</p>
+  <div class="tscroll"><table>
+    <thead><tr><th>Name</th><th>Greek</th><th>Meaning</th><th>Slogan</th><th>Brand link</th><th>Naming read</th><th>Your vote</th></tr></thead>
+    <tbody id="greekT"></tbody>
+  </table></div>
+  <div class="twocol" style="margin-top:16px">
+    <div class="box br"><h3>Five strongest directions</h3><ul>
+      <li><b>EPINOIA</b>: Thought into form.</li>
+      <li><b>PLASIS</b>: Shape what comes next.</li>
+      <li><b>METRON</b>: Creative work, measured.</li>
+      <li><b>TROPOS</b>: A better way to make.</li>
+      <li><b>POIEMA</b>: Made with meaning.</li>
+    </ul></div>
+    <div class="box br"><h3>Literal Modern Greek</h3><ul>
+      <li>Ennoia: concept · Dimiourgikotita: creativity</li>
+      <li>Dimiourgia: creation · Empnefsi: inspiration</li>
+      <li>Fantasia: imagination · Orama: vision</li>
+    </ul><p style="margin-top:8px;color:var(--mut)">Favourite from this round: <b style="color:var(--tx)">EPINOIA</b>, with <b style="color:var(--tx)">PLASIS</b> as the more unusual alternative.</p></div>
+  </div>
+</section>
+
+<!-- 05 METHOD -->
+<section id="method">
+  <div class="sh"><span class="n">05</span><h2>Names from the methodology</h2><span class="rule"></span></div>
+  <div class="src">Source: ChatGPT · built from the vault's phase-and-gate method</div>
+  <p class="sub">A gate-based method: turn a need into a concept, make it through real client work, measure the result, learn from the evidence, and expand only when demand, money and capability support the next step.</p>
+  <div class="flow">
+    <div class="step"><div class="g">01 · ἔννοια</div><div class="w">Ennoia</div><div class="d">Define and understand the concept</div></div>
+    <div class="step"><div class="g">02 · ποίησις</div><div class="w">Poiesis</div><div class="d">Create it and bring it into existence</div></div>
+    <div class="step"><div class="g">03 · πρᾶξις</div><div class="w">Praxis</div><div class="d">Carry it out on a real client project</div></div>
+    <div class="step"><div class="g">04 · μέτρον</div><div class="w">Metron</div><div class="d">Measure hours, cost, failures and client satisfaction</div></div>
+    <div class="step"><div class="g">05 · σύνεσις</div><div class="w">Synesis</div><div class="d">Combine the evidence into understanding</div></div>
+    <div class="step"><div class="g">06 · τέλος</div><div class="w">Telos</div><div class="d">Decide: continue, change or stop</div></div>
+  </div>
+  <div class="twocol">
+    <div class="box br"><h3>Five principles</h3><ul>
+      <li>Real work before assumptions</li>
+      <li>Evidence before expansion</li>
+      <li>Results before time: a phase ends when the outcome is reached</li>
+      <li>Growth opens only when capability, money or clients allow it</li>
+      <li>Structured change: service, customer, price or package</li>
+    </ul><p style="margin-top:8px;color:var(--mut)"><b style="color:var(--tx)">KAIROS</b>, the right moment: the next phase opens only when the conditions are right.</p></div>
+    <div class="box br"><h3>Method names</h3><ul>
+      <li><b>The Ennoia–Praxis Method</b>: From concept to execution, guided by evidence.</li>
+      <li><b>The Metron Method</b>: Create. Test. Measure. Evolve.</li>
+    </ul><p style="margin-top:8px;color:var(--mut)">Strongest words from the method: Metron, Praxis, Synesis, Epinoia, Kairos.</p></div>
+  </div>
+</section>
+
+<!-- 06 MYTH -->
+<section id="myth">
+  <div class="sh"><span class="n">06</span><h2>Greek mythology · figures</h2><span class="rule"></span></div>
+  <div class="src">Source: ChatGPT · <span class="ar">من خرافات الإغريق</span></div>
+  <p class="sub">Names taken from a figure or story in Greek mythology, not a translated word, so the name comes with a story and a method attached.</p>
+  <div class="grid" data-set="myth"></div>
+</section>
+
+<!-- 07 MUSES + NEW -->
+<section id="muses">
+  <div class="sh"><span class="n">07</span><h2>The Muse family &amp; new figures</h2><span class="rule"></span></div>
+  <div class="src">Source: Claude · with a quick web check</div>
+  <div class="pick br">
+    <svg viewBox="0 0 240 240" aria-hidden="true">
+      <circle cx="120" cy="120" r="110" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+      <circle cx="120" cy="120" r="96" fill="none" stroke="#3a3a3a" stroke-width="10" stroke-dasharray="2 5"/>
+      <circle cx="120" cy="120" r="78" fill="none" stroke="#ff3131" stroke-width="2" stroke-dasharray="370 120" transform="rotate(-90 120 120)"/>
+      <circle cx="120" cy="120" r="60" fill="none" stroke="#2a2a2a"/>
+      <line x1="10" y1="120" x2="40" y2="120" stroke="#ff3131"/><line x1="200" y1="120" x2="230" y2="120" stroke="#ff3131"/>
+      <line x1="120" y1="10" x2="120" y2="40" stroke="#5a5a5a"/><line x1="120" y1="200" x2="120" y2="230" stroke="#5a5a5a"/>
+      <text x="120" y="112" text-anchor="middle" fill="#f2f2f2" font-family="Rajdhani,sans-serif" font-size="30" font-weight="700" letter-spacing="3">MELETE</text>
+      <text x="120" y="138" text-anchor="middle" fill="#8d8d8d" font-family="Share Tech Mono,monospace" font-size="11" letter-spacing="2">PRACTICE · MELETH</text>
+      <text x="120" y="158" text-anchor="middle" fill="#ff3131" font-family="Share Tech Mono,monospace" font-size="11" letter-spacing="2">RANK 01</text>
+    </svg>
+    <div>
+      <span class="tag">Top pick</span>
+      <div class="big">Melete<small class="ar">ميليتي</small></div>
+      <q>"The discipline behind creativity." The practice that turns inspiration into exceptional work.</q>
+      <p style="color:var(--mut);margin-top:10px">One of the three original Muses (practice and preparation). The quick web check found no Saudi creative agency using the name; the closest hit was a handbag brand. The other two original Muses give ready-made names for future lines.</p>
+    </div>
+  </div>
+  <div class="grid" data-set="muses"></div>
+  <p class="sub" style="margin-top:22px">New figures considered in this round:</p>
+  <div class="grid" data-set="new"></div>
+</section>
+
+<!-- 08 REJECTED -->
+<section id="rejected">
+  <div class="sh"><span class="n">08</span><h2>Rejected &amp; why</h2><span class="rule"></span></div>
+  <p class="sub">Kept on the list so the same names don't come up again.</p>
+  <table>
+    <thead><tr><th>Name</th><th>Reason</th><th>From</th></tr></thead>
+    <tbody id="rejT"></tbody>
+  </table>
+</section>
+
+<!-- 09 RANK -->
+<!-- 09 GUIDE -->
+<section id="guide">
+  <div class="sh"><span class="n">09</span><h2>Brand guideline pages</h2><span class="rule"></span></div>
+  <div class="src">Source: Claude · drafts for judging, not final copy</div>
+  <p class="sub">How the "Our name" page of the brand guideline would read for each leading name. Every page follows the same six parts, so the names can be compared side by side.</p>
+  <div class="tmpl">
+    <div><b>1 · Name story</b>The paragraph that explains the name to anyone who asks.</div>
+    <div><b>2 · What it says</b>How the meaning connects to services, the guideline and the phases.</div>
+    <div><b>3 · Slogans</b>English and Arabic lines to test with Nawaf and first clients.</div>
+    <div><b>4 · Brand family</b>How lines and branches are named under it.</div>
+    <div><b>5 · Visual cue</b>The idea a logo designer would start from.</div>
+    <div><b>6 · Watch out</b>The honest weakness of the name.</div>
+    <div><b>Usage rule</b>Always show the Latin and Arabic forms together at launch; never translate the name.</div>
+    <div><b>Tone</b>Three voice words per name set the tone for all copy.</div>
+  </div>
+  <div id="guideG"></div>
+</section>
+
+<!-- 10 RANK -->
+<section id="rank">
+  <div class="sh"><span class="n">10</span><h2>Current ranking</h2><span class="rule"></span></div>
+  <p class="sub">The latest ranking, after the mythology round. Earlier favourites are shown below it.</p>
+  <div class="rank" id="rankG"></div>
+  <div class="twocol" style="margin-top:14px">
+    <div class="box"><h3>Earlier favourites · ChatGPT</h3><ul>
+      <li>Arabic/English: Mumtad › Asl &amp; Imtidad › Mark &amp; Method › Asl &amp; Athar › Made &amp; Measured</li>
+      <li>Greek words: Epinoia, then Plasis</li>
+      <li>Mythology: Melete › Ariadne › Metis › Kairos</li>
+    </ul></div>
+    <div class="box"><h3>Earlier favourites · Claude</h3><ul>
+      <li>Round 1: Minassa › Wasm › Athar</li>
+      <li>Round 2: Melete (+ Mneme, Aoede) › Phanes › Ariadne › Metis › Kairos</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- 10 NEXT -->
+<section id="next">
+  <div class="sh"><span class="n">11</span><h2>Next step</h2><span class="rule"></span></div>
+  <div class="flow">
+    <div class="step"><div class="g">01</div><div class="w">Pick 2–3</div><div class="d">Baraa and Nawaf choose the finalists</div></div>
+    <div class="step"><div class="g">02</div><div class="w">Trade name</div><div class="d">Ministry of Commerce trade-name check</div></div>
+    <div class="step"><div class="g">03</div><div class="w">Trademark</div><div class="d">SAIP trademark database search</div></div>
+    <div class="step"><div class="g">04</div><div class="w">Online</div><div class="d">Domain and social handles</div></div>
+    <div class="step"><div class="g">05</div><div class="w">Decide</div><div class="d">Record the decision in the decision register</div></div>
+  </div>
+  <p class="sub">This is research item 08 (Name and trademark). Saudi trade-name rules can reject a name that resembles an existing one even when the activity differs.</p>
+</section>
+
+<!-- 12 DECIDE -->
+<section id="decide">
+  <div class="sh"><span class="n">12</span><h2>Your decision</h2><span class="rule"></span></div>
+  <p class="sub" id="decSub">Pick Baraa or Nawaf at the top first.</p>
+  <div class="dec" id="decForm">
+    <div class="q br"><h3>1 · Your top 3</h3><div class="hint">In order. The list shows every candidate; the ones you Liked are listed first.</div>
+      <div class="top3"><div><label for="t0">1st choice</label><select id="t0" data-k="top0"></select></div><div><label for="t1">2nd choice</label><select id="t1" data-k="top1"></select></div><div><label for="t2">3rd choice</label><select id="t2" data-k="top2"></select></div></div></div>
+    <div class="q br"><h3>2 · Favourite slogan for your 1st choice</h3><div class="hint" id="slHint">Choose your 1st choice above to see its slogans.</div>
+      <div class="opts" id="slOpts"></div>
+      <label for="slEn">Or write your own · English</label><input type="text" id="slEn" data-k="sloganEn">
+      <label for="slAr">Or write your own · Arabic</label><input type="text" class="ar" dir="rtl" id="slAr" data-k="sloganAr"></div>
+    <div class="q br"><h3>3 · Brand identity for your 1st choice</h3><div class="hint">How the brand should feel and look. Suggestions from the guideline pages are shown where there is one.</div>
+      <label>Voice · pick up to 3 words</label><div class="sug" id="voiceSug" hidden></div><div class="opts" id="voiceOpts"></div>
+      <label>Logo direction</label><div class="sug" id="visSug" hidden></div>
+      <div class="opts"><label class="o"><input type="radio" name="logo" value="keep" data-k="logo"> Keep the suggested visual cue</label><label class="o"><input type="radio" name="logo" value="own" data-k="logo"> My own idea</label></div>
+      <textarea id="logoText" data-k="logoText" placeholder="Describe the logo you imagine (optional)"></textarea>
+      <label>Colour direction</label>
+      <div class="opts" id="colOpts"></div>
+      <input type="text" id="colText" data-k="colourText" placeholder="Colours you have in mind (optional)">
+      <label>How the name appears</label>
+      <div class="opts" id="dispOpts"></div>
+      <label for="arSp">Arabic spelling of the name</label><input type="text" class="ar" dir="rtl" id="arSp" data-k="arabic">
+      <label>Brand family · sub-names you like</label><div class="opts" id="famOpts"></div></div>
+    <div class="q br"><h3>4 · Comments</h3><textarea id="cm" data-k="comments" placeholder="Anything about the list, the ranking or the next steps"></textarea></div>
+    <div class="q br"><h3>5 · Suggest new names</h3><textarea id="nn" data-k="newNames" placeholder="Names that aren't on the list, with a short reason"></textarea></div>
+    <div class="submitbar"><button type="button" class="bigbtn" id="submitB">Submit</button><div id="subMsg" style="color:var(--mut)"></div></div>
+  </div>
+  <div style="margin-top:26px" id="cmpWrap">
+    <div class="sh" style="margin-bottom:12px"><span class="n">⇄</span><h2 style="font-size:22px">Baraa vs Nawaf</h2><span class="rule"></span></div>
+    <div id="cmp"></div>
+  </div>
+</section>
+
+<footer>
+  <div style="font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--red)">STARTUP TERMS ON THIS PAGE · STARTUPDEFINITIONS.COM</div>
+  <div class="terms">
+    <div><b>Brand Identity</b>: The visible parts of a brand, like logo, colours, fonts and style, that make it recognisable.</div>
+    <div><b>Positioning</b>: How the company wants to be seen in the customer's mind compared with the alternatives.</div>
+    <div><b>Trademark</b>: A registered name or logo that only its owner may use for its goods or services.</div>
+  </div>
+  <p style="margin-top:18px">Company name candidates · v2 · 26 Sep 2026 · slogans, brand links and guideline pages added · Visual style after the "Futuristic UI Kit – 200 design elements" Figma community file.</p>
+</footer>
+</div>
+
 <script>
-const TOPICS={"07":"Sales","09":"Money","11":"Legal and admin","12":"Baraa and Nawaf"};
-const LN={P:'Provisional',O:'Open'};
-const ROWS=[
-{id:"N07.01",t:"07",l:"O",x:"How many contacts the list holds — Nawaf writes it in P1"},
-{id:"N09.01",t:"09",l:"O",x:"The seed repayment order between the two founders"},
-{id:"N09.02",t:"09",l:"O",x:"When founders may start taking money out, and in what form"},
-{id:"N11.01",t:"11",l:"P",x:"The founders' documents are signed, and reviewed by Saudi legal and tax advisers"},
-{id:"N11.02",t:"11",l:"P",x:"A separate leaver rule, worded by the Saudi advisers"},
-{id:"N12.01",t:"12",l:"O",x:"Nawaf's job on Topic 12 page 06, widened on 24 Sep — he adds his own lines"},
-{id:"N12.02",t:"12",l:"P",x:"Three expectations: a reply within an agreed time, a warning before peaks, a short regular update — trust first"},
-{id:"N12.03",t:"12",l:"O",x:"Nawaf's own form: his availability and what he expects from Baraa"},
-{id:"N12.04",t:"12",l:"P",x:"Shares vest over four years with a one-year cliff, for both — Baraa's answer, not discussed on 24 Sep"},
-{id:"N12.05",t:"12",l:"O",x:"Does anything move the 60 / 40 later — results at each band, or a yearly review?"},
-{id:"N12.06",t:"12",l:"O",x:"Whether the 15% commission to Nawaf stays, now that he is a fully operating founder"},
-{id:"N12.07",t:"12",l:"P",x:"The third party's money counts as Baraa's own cash"},
-{id:"N12.08",t:"12",l:"P",x:"Baraa is the second contact on every client"}];
-const API='https://ma-decision-register.baraakhaldi-ma.workers.dev';
-const $=s=>document.querySelector(s);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const D = {
+ r1:[
+  {n:"Mumtad",s:"ممتد",m:"Extended, ongoing, continuing.",v:"top",l:"Best overall",
+   sl:"From the moment to what follows.",sa:"من اللحظة إلى ما بعدها",
+   rel:"Every job runs before, during and after the event, and the guideline carries the work on after the company leaves. The phases extend the company one line at a time. Family: Mumtad Events · Digital · Studio · Labs · Ventures.",
+   g:"Mumtad means \"extended\". Our work doesn't stop when the event ends: we design before it, create during it, and hand over a guideline for what comes after. The name also describes how we grow: one service at a time, each extending the last."},
+  {n:"Asl & Imtidad",s:"أصل وامتداد",m:"Roots and extension.",v:"short",l:"#2",
+   sl:"Rooted here. Built to reach.",sa:"أصلٌ ثابت، وامتدادٌ لا يقف",
+   rel:"Asl is the Gulf-market understanding the founders want to be known for; Imtidad is the future branches (new regions, a creator brand, products).",
+   g:"Two words, two promises. Asl: we come from here and understand this market. Imtidad: we're built to go further than one service or one city."},
+  {n:"Mark & Method",s:"",m:"Creative identity backed by disciplined execution.",v:"short",l:"#3",
+   sl:"Ideas with a method behind them.",sa:"فكرةٌ بمنهج",
+   rel:"The mark is event identity and design work; the method is the phase gates, the guideline and the operational playbook.",
+   g:"Every piece of work has two halves: the mark people see and the method that made it reliable. We never sell one without the other."},
+  {n:"Asl & Athar",s:"أصل وأثر",m:"Foundation and impact.",v:"short",l:"#4",
+   sl:"Strong roots. Lasting impact.",sa:"أصلٌ متين، وأثرٌ باقٍ",
+   rel:"A solid base (reliability, quality) and a visible result that outlives the event (post-event content, the guideline).",
+   g:"Asl is what we build on: understanding, discipline, quality. Athar is what we leave: work that is still useful after the event is over."},
+  {n:"Made & Measured",s:"",m:"Quality output, then evaluation and improvement.",v:"short",l:"#5",
+   sl:"Made well. Measured honestly.",sa:"نصنع بإتقان، ونقيس بصدق",
+   rel:"Matches the test phase and the two-week reviews: real vs quoted hours, profit per job, and whether the client came back.",
+   g:"We make things properly, and then we check them against the numbers. The name is a promise that we won't call something a success without evidence."},
+  {n:"Shape & Sequence",s:"",m:"Design plus ordered execution.",v:"",l:"Listed",
+   sl:"Every piece in its place.",sa:"كل قطعة في مكانها",
+   rel:"Design (shape) delivered through a fixed order of steps and gates (sequence).",
+   g:"Shape is what we design. Sequence is the order we deliver it in, so nothing is missed and nothing is late."},
+  {n:"Moment & Method",s:"",m:"Memorable events through a reliable process.",v:"",l:"Listed",
+   sl:"Great moments aren't accidents.",sa:"اللحظة الجميلة لا تأتي صدفة",
+   rel:"Speaks directly to event design; weaker once the company moves beyond events.",
+   g:"The moment is what guests remember. The method is why it went right. We build both."},
+  {n:"Mabaad",s:"ما بعد",m:"What comes after, or beyond.",v:"",l:"Listed",
+   sl:"We think about what comes next.",sa:"نفكّر فيما بعد",
+   rel:"The post-event plan and guideline in one word; also hints at \"beyond an ordinary agency\".",
+   g:"Most agencies stop at the event. Mabaad starts where they stop: the content, the plan and the guideline for what comes after."}
+ ],
+ r1c:[
+  {n:"Minassa",s:"منصّة",m:"Stage and platform.",v:"top",l:"Claude #1",
+   sl:"Your stage, on every screen.",sa:"منصّتك على المسرح وعلى الشاشة",
+   rel:"Events now (the stage); digital work, the website/ERP, software and the creator brand later (the platform). The name tells the company's own growth story.",
+   g:"A minassa is two things in Arabic: the stage at an event and a digital platform. We started on the first and are building toward the second, and the name holds both."},
+  {n:"Wasm",s:"وسم",m:"Brand mark, and the Arabic word for hashtag.",v:"short",l:"Claude #2",
+   sl:"Leave your mark.",sa:"اترك وسمك",
+   rel:"Identity design (the mark) plus digital and social content (the hashtag).",
+   g:"Wasm is the old Arabic word for the mark that shows who something belongs to, and today it's the word for a hashtag. We make both kinds of mark."},
+  {n:"Athar",s:"أثر",m:"Impact, or the mark left behind.",v:"short",l:"Claude #3",
+   sl:"Work that leaves a mark.",sa:"عملٌ يترك أثرًا",
+   rel:"The guideline and post-event content are what stays with the client.",
+   g:"Athar is the trace left after something has passed. We judge our work by what remains after the event, not only by the day itself."},
+  {n:"Nasaq",s:"نسق",m:"Order, harmony.",v:"",l:"Listed",
+   sl:"Everything in harmony.",sa:"كل شيء على نسق",
+   rel:"Reliability and consistency across every piece of an event's identity.",
+   g:"Nasaq means things arranged so they belong together. Every item we deliver follows one system."},
+  {n:"Khatt",s:"خط",m:"Line, script, typeface.",v:"",l:"Listed",
+   sl:"Drawn with purpose.",sa:"كل خطٍ بمعنى",
+   rel:"Design-first; ties to Arabic calligraphy and typography.",
+   g:"Khatt is a line, a script and a typeface. Everything we make starts with a line drawn on purpose."},
+  {n:"Rawaq",s:"رواق",m:"Arcade or hall, a place people gather.",v:"",l:"Listed",
+   sl:"Where people gather.",sa:"حيث يلتقي الناس",
+   rel:"Events and communities; a cultural feel.",
+   g:"A rawaq is the covered hall where people meet and learn. We design the places, physical and digital, where people come together."},
+  {n:"Sada",s:"صدى",m:"Echo.",v:"",l:"Listed",
+   sl:"Make it echo.",sa:"ليبقى الصدى",
+   rel:"Content that carries an event forward after the day.",
+   g:"An event is a sound; we make sure it echoes, in content, coverage and a plan that keeps it going."},
+  {n:"Afterglow",s:"",m:"The event ends, the content keeps going.",v:"",l:"Listed",
+   sl:"The event ends. The glow stays.",sa:"تنتهي الفعالية ويبقى وهجها",
+   rel:"Post-event content; ties the company closely to events.",
+   g:"Afterglow is the light that stays after the lights go off. That's the part of an event we specialise in."},
+  {n:"Layerhouse",s:"",m:"After the \"digital layer inside structures\" idea.",v:"",l:"Listed",
+   sl:"Every layer, one house.",sa:"كل الطبقات تحت سقف واحد",
+   rel:"Identity, print, digital and content layers from one company: the full digital workload.",
+   g:"Every project has layers: identity, print, screens, content, plan. We build all of them under one roof."},
+  {n:"Full Frame",s:"",m:"A quiet nod to \"full digital workload\".",v:"",l:"Listed",
+   sl:"Nothing left out of frame.",sa:"الصورة كاملة",
+   rel:"The positioning line in two words.",
+   g:"We take the full picture, not one corner of it. If it's digital and it's part of your event, it's in our frame."},
+  {n:"Second Stage",s:"",m:"What happens after the event; growth.",v:"",l:"Listed",
+   sl:"What happens next is our stage.",sa:"ما بعد الحدث هو مسرحنا",
+   rel:"The post-event plan, and the idea of a company that grows in stages.",
+   g:"The first stage is the event. The second stage is everything it becomes afterwards, and that's where we do our best work."},
+  {n:"Wasmly · Nasaq Digital",s:"",m:"Coined or suffixed versions.",v:"",l:"Listed",
+   sl:"Same slogans as the base words.",sa:"",
+   rel:"A fallback if the plain word is taken as a trade name.",
+   g:"Used only if the plain word can't be registered; the story stays the same as the base word."}
+ ],
+ greek:[
+  ["Epinoia","ἐπίνοια","Inventiveness, invention, design or purpose","Thought into form.","Concept → design: the whole first service line","Best fit in meaning"],
+  ["Ennoia","ἔννοια","Concept, notion, reflection","It starts with the idea.","The brief and the first conversation","Direct and intelligent"],
+  ["Plasis","πλάσις","Forming, shaping, moulding","Shape what comes next.","Shaping identities and the guideline","Distinctive design metaphor"],
+  ["Poiema","ποίημα","Something made; workmanship","Made with meaning.","Crafted deliverables","Artistic and tangible"],
+  ["Poiesis","ποίησις","Making, creation, production","Making, mastered.","Production","Beautiful but crowded"],
+  ["Morphe","μορφή","Form or shape","Give it form.","Visual identity","Strongly visual, but crowded"],
+  ["Techne","τέχνη","Art, craft, skilled making","Craft you can see.","Quality of output","Signals quality"],
+  ["Synesis","σύνεσις","Understanding; joining things mentally","We connect the dots.","Evidence into decisions (reviews)","Strategic, systematic"],
+  ["Synthesis","σύνθεσις","Putting elements into a whole","Everything, together.","Full digital workload","Fits an integrated agency"],
+  ["Praxis","πρᾶξις","Action, execution, accomplishment","Ideas, done.","Delivery and reliability","Strong delivery message"],
+  ["Metron","μέτρον","Measure, proportion, standard","Creative work, measured.","Two-week reviews, real vs quoted hours","Reliability and evaluation"],
+  ["Tropos","τρόπος","Way, method, manner","A better way to make.","The method and playbook","Broad and methodical"],
+  ["Eidos","εἶδος","Form, shape, underlying idea","The idea behind the image.","Identity and brand work","Premium, philosophical"],
+  ["Noema","νόημα","Meaning, thought, content","Meaning in every piece.","Content","Good for content, but crowded"],
+  ["Noesis","νόησις","Intelligence, understanding","Understanding first.","Consulting and planning","More consultative"],
+  ["Orama","όραμα","Vision, aspirational goal","See further.","Future branches","Simple, optimistic"],
+  ["Kairos","καιρός","The right, opportune moment","Right idea, right moment.","Events and phase gates","Relevant to events"],
+  ["Telos","τέλος","Purpose, goal, completion","Built with the end in mind.","The guideline for what comes next","Long-term direction"]
+ ],
+ myth:[
+  {n:"Melete",s:"ميليتي · Μελέτη",m:"One of the three original Muses: practice and preparation.",v:"top",l:"ChatGPT #1",
+   sl:"The discipline behind creativity.",sa:"الإبداع بالممارسة والإتقان",
+   rel:"The test phase, the two-week reviews and \"results before time\" are all practice before performance. Not overused like Apollo or Athena.",
+   g:"Melete was the Muse of practice. We took her name because good work is rehearsed, not improvised: we prepare, test with real clients, measure, and only then expand."},
+  {n:"Ariadne",s:"أريادني",m:"Gave Theseus the thread that led him out of the labyrinth.",v:"short",l:"#2",
+   sl:"The thread through the complex.",sa:"نمسك لك الخيط",
+   rel:"The four-part guideline is literally a thread the client follows after the company leaves. Strong for strategy.",
+   g:"Ariadne handed Theseus a thread so he could find his way out of the maze. Every engagement ends with our thread: a guideline showing the client the way forward."},
+  {n:"Metis",s:"ميتِس",m:"Goddess of deep wisdom, craft and strategic planning.",v:"short",l:"#3",
+   sl:"Think first. Then make.",sa:"فكّر أولًا، ثم اصنع",
+   rel:"Planning before production; the phase design itself. Crowded as a name.",
+   g:"Metis was the goddess of wise counsel and skilled craft. We plan before we make, and the plan is part of what the client receives."},
+  {n:"Kairos",s:"كايروس",m:"The right moment to act, as a god.",v:"short",l:"#4",
+   sl:"The right idea, at the right moment.",sa:"الفكرة الصحيحة في اللحظة المناسبة",
+   rel:"Events are about timing; the phases also open only at the right moment. Common name.",
+   g:"The Greeks had two words for time: chronos, the clock, and kairos, the right moment. We work for the second: the idea that lands exactly when it should."},
+  {n:"Daedalus",s:"ديدالوس",m:"The inventor, architect and craftsman who built the labyrinth.",v:"",l:"Alt",
+   sl:"Imagined. Then built.",sa:"من الخيال إلى التنفيذ",
+   rel:"Design that becomes something real; the \"structures with digital solutions\" idea.",
+   g:"Daedalus was the master craftsman who could build anything he imagined. (Risk: his story is also tied to Icarus's fall.)"},
+  {n:"Calliope",s:"كاليوبّي",m:"Muse of epic poetry and eloquence.",v:"",l:"Alt",
+   sl:"Stories told beautifully.",sa:"حكايةٌ تُروى بإتقان",
+   rel:"Content and storytelling only; too narrow for the whole company.",
+   g:"Calliope was the Muse of great stories. A better fit as a content line than as the company name."},
+  {n:"Eukleia",s:"يوكليا",m:"Good reputation and glory, as a goddess.",v:"",l:"Alt",
+   sl:"Work that builds a name.",sa:"عملٌ يبني سمعة",
+   rel:"Reputation for reliability and quality: the thing the founders want to be known for.",
+   g:"Eukleia was the goddess of good reputation. Every job is judged by one question: did it make the client's name, and ours, stronger?"}
+ ],
+ muses:[
+  {n:"Melete",s:"ميليتي",m:"Practice and preparation.",v:"top",l:"Company",
+   sl:"Practice makes the work.",sa:"بالممارسة يكتمل العمل",
+   rel:"The company itself: every service is practised and tested before it opens.",
+   g:"The parent name. Melete is the company; its lines carry the names of her two sisters."},
+  {n:"Mneme",s:"نيمي",m:"Memory.",v:"short",l:"Future line",
+   sl:"Made to be remembered.",sa:"صُنع ليُذكر",
+   rel:"Post-event content, archives and the guideline: what's left after the event.",
+   g:"Mneme, the Muse of memory, names the line that keeps an event alive after the day."},
+  {n:"Aoede",s:"أويدي",m:"Voice and song.",v:"short",l:"Future line",
+   sl:"Give it a voice.",sa:"امنحه صوتًا",
+   rel:"The content and creator line (the creator brand in Topic 13).",
+   g:"Aoede, the Muse of voice, names the line that speaks for people and brands: content and creators."}
+ ],
+ nw:[
+  {n:"Phanes",s:"فانيس · Φάνης",m:"The first-born god; \"the one who brings things into the light.\"",v:"top",l:"Claude #2",
+   sl:"We bring it to light.",sa:"نُظهره للنور",
+   rel:"The company's job is to make organisations and their events visible. It sounds like فانوس (lantern), so both languages point at light. Rare as a name.",
+   g:"In the oldest Greek creation stories, Phanes was the first being to appear, and his name means \"the one who brings to light\". In Arabic it sounds like fanous, a lantern. We make things seen."},
+  {n:"Mitos",s:"μίτος",m:"The actual name of Ariadne's thread.",v:"",l:"Weak",
+   sl:"Follow the thread.",sa:"اتبع الخيط",
+   rel:"Same story as Ariadne in a shorter name, but \"Mito\" is already used by several design studios.",
+   g:"Mitos is the thread that led out of the labyrinth, like the guideline we hand over at the end of every job."},
+  {n:"Peitho",s:"Πειθώ",m:"Goddess of persuasion.",v:"rej",l:"Rejected",
+   sl:"Persuasion, by design.",sa:"الإقناع بالتصميم",
+   rel:"A perfect marketing meaning, which is why several marketing and PR agencies already use it.",
+   g:"Not recommended: already taken in the same industry."},
+  {n:"Proteus",s:"Πρωτεύς",m:"The shape-shifting sea god.",v:"rej",l:"Rejected",
+   sl:"We change to stay ahead.",sa:"نتغيّر لنبقى",
+   rel:"Matches \"never stop, only pivot\". Crowded.",
+   g:"Not recommended: crowded."},
+  {n:"Argo",s:"Ἀργώ",m:"The ship the Argonauts sailed together.",v:"rej",l:"Rejected",
+   sl:"One crew. One voyage.",sa:"طاقمٌ واحد، رحلةٌ واحدة",
+   rel:"Two founders, one voyage. Crowded in tech.",
+   g:"Not recommended: crowded in tech."}
+ ],
+ rej:[
+  ["Mada · مدى","Saudi Arabia's national payment network","Claude"],
+  ["Hawiya · Bayan","Too generic to protect","Claude"],
+  ["Qiwam · Nasq · Nabra · Talaqi · Nahj","Close names already used in Saudi/Gulf creative, advertising or events","ChatGPT"],
+  ["Sema / Sima · σῆμα","Beautiful meaning (sign, mark), but several Saudi businesses already use Sima in branding, creative work, gifts and events","ChatGPT"],
+  ["Morphe · Noema · Poiesis","Already used by creative and design businesses","ChatGPT"],
+  ["Peitho","Several marketing and PR agencies already use it","Claude"],
+  ["Mitos / Mito","Used by several design studios","Claude"],
+  ["Proteus · Argo","Crowded, especially in tech","Claude"],
+  ["Clio","The Clio Awards are among the best-known advertising awards, so it would cause confusion","Claude"],
+  ["Hermes","A luxury brand, and already the name of Baraa's voice agent","Claude"],
+  ["Atlas · Nike · Pegasus","Taken worldwide; Pegasus is also known as spyware","Claude"],
+  ["Apollo · Athena","Overused","ChatGPT"],
+  ["Marketing / Events / Media / AI / Agency as the main word","Would box in the larger company; use them only as descriptors or branch names","ChatGPT"]
+ ],
+ rank:[
+  ["Melete","+ Mneme, Aoede as future lines"],
+  ["Phanes","Bringing into the light"],
+  ["Ariadne","The thread through the maze"],
+  ["Metis","Wisdom and craft"],
+  ["Kairos","The right moment"]
+ ],
+ guide:[
+  {n:"Melete",s:"ميليتي",say:"MEH-leh-tee · مِيلِيتي",
+   story:"Before the nine famous Muses, the Greeks told of three: Melete (practice), Mneme (memory) and Aoede (voice). Melete was the Muse of practice, the quiet work that comes before any great performance. We took her name because we believe creative work should be rehearsed, not improvised. We prepare every project, test every new service with real clients, measure what happened, and only then grow.",
+   means:["Event design: every identity is prepared and checked before it reaches the client","The guideline: practice written down so the client can repeat it","The phases: nothing opens until it has been practised and proven","Future lines: Mneme (post-event content and archive) and Aoede (content and creators)"],
+   sl:["The discipline behind creativity.","Practice makes the work.","Prepared. Then remarkable."],
+   sa:["الإبداع بالممارسة والإتقان","بالممارسة يكتمل العمل"],
+   fam:"Melete · Melete Studio · Melete Digital · Melete Labs · Mneme by Melete · Aoede by Melete",
+   vis:"A mark made of three parallel strokes (the three Muses, and repeated practice lines); calm, precise, lots of space.",
+   voice:"Calm · Prepared · Precise",
+   watch:"Arabic speakers may not know how to say it at first; write the Arabic form ميليتي next to the Latin name everywhere at launch."},
+  {n:"Phanes",s:"فانيس",say:"FAY-neez · فانيس",
+   story:"In the oldest Greek stories of creation, Phanes was the first being to appear out of the dark, and his name means \"the one who brings to light\". In Arabic, Phanes sounds like fanous, the lantern. Our job is the same in both languages: we take what an organisation already has, its event, its message, its material, and bring it into the light.",
+   means:["Event design: making the event seen, before, during and after","Content: turning existing material into something people notice","The creator line: bringing people into public view","Software later: tools that make work visible"],
+   sl:["We bring it to light.","Made to be seen.","From the dark, into view."],
+   sa:["نُظهره للنور","صُنع ليُرى"],
+   fam:"Phanes · Phanes Studio · Phanes Digital · Phanes Labs",
+   vis:"A lantern or aperture shape: light breaking out from a centre; strong contrast of dark and one bright colour.",
+   voice:"Bright · Confident · Clear",
+   watch:"English speakers may say \"Panes\" or \"Fanes\"; the lantern story helps people remember the sound."},
+  {n:"Ariadne",s:"أريادني",say:"ar-ee-AD-nee · أريادني",
+   story:"Ariadne gave Theseus a ball of thread before he entered the labyrinth, and by following it he found his way out. Every one of our projects ends the same way: we hand the client a thread, a guideline showing how to carry on without us.",
+   means:["The four-part guideline is the thread","Strategy: turning a complicated situation into a clear path","Reliability: the client is never lost halfway"],
+   sl:["The thread through the complex.","Always a way forward.","We hand you the thread."],
+   sa:["نمسك لك الخيط","دائمًا هناك طريق"],
+   fam:"Ariadne · Ariadne Studio · \"The Thread\" (name for the guideline product)",
+   vis:"One continuous line that winds through a maze and forms the letter A.",
+   voice:"Guiding · Clear · Reassuring",
+   watch:"Four syllables and an unusual spelling; a common woman's name in some countries."},
+  {n:"Metis",s:"ميتِس",say:"MEE-tis · ميتِس",
+   story:"Metis was the Greek goddess of wise counsel and skilled craft, the mind that plans before the hand makes. We think a project through before we design it, and the thinking is part of what the client receives.",
+   means:["Planning before production","The phase design and gates","The guideline as delivered wisdom"],
+   sl:["Think first. Then make.","Wisdom, crafted.","Smart work, well made."],
+   sa:["فكّر أولًا، ثم اصنع","حكمةٌ مصنوعة بإتقان"],
+   fam:"Metis · Metis Studio · Metis Labs",
+   vis:"A folded geometric shape: the plan hidden inside the form.",
+   voice:"Wise · Strategic · Measured",
+   watch:"Already used by many companies, so trade-name and trademark clearance is harder."},
+  {n:"Kairos",s:"كايروس",say:"KAI-ros · كايروس",
+   story:"The Greeks had two words for time: chronos, the ticking clock, and kairos, the right moment. Events are all about kairos, and so is the way we grow: a new service opens only when the moment is right.",
+   means:["Event design: the right idea at the right moment","The phase gates: opening things at the right time","Content timed to land"],
+   sl:["The right idea, at the right moment.","Timing is everything.","Right on time."],
+   sa:["الفكرة الصحيحة في اللحظة المناسبة","كل شيء في وقته"],
+   fam:"Kairos · Kairos Events · Kairos Studio",
+   vis:"A single moment marker: a clock hand frozen at one point, or a pulse line with one peak.",
+   voice:"Sharp · Timely · Energetic",
+   watch:"Very common name worldwide; leans strongly towards events."},
+  {n:"Mumtad",s:"ممتد",say:"mum-TAD · مُمتَد",
+   story:"Mumtad means \"extended\". Our work doesn't stop when the event ends: we design before it, create during it, and hand over a guideline for what comes after. The company grows the same way, one service at a time, each extending the last.",
+   means:["Before, during and after every event","The guideline extends the work past the event","The phases extend the company step by step"],
+   sl:["From the moment to what follows.","Beyond the day.","Work that keeps going."],
+   sa:["من اللحظة إلى ما بعدها","عملٌ لا ينتهي بانتهاء الحدث"],
+   fam:"Mumtad · Mumtad Events · Mumtad Digital · Mumtad Studio · Mumtad Labs · Mumtad Ventures",
+   vis:"A wordmark whose last letter extends into a long line: the work going on past the name.",
+   voice:"Warm · Local · Forward",
+   watch:"An everyday Arabic word, so it's harder to protect as a trademark and may resemble existing trade names."},
+  {n:"Minassa",s:"منصّة",say:"mi-NASS-a · مِنَصّة",
+   story:"A minassa is two things in Arabic: the stage at an event and a digital platform. We started on the first and are building toward the second, and the name holds the whole journey.",
+   means:["Events: the stage","Digital work, the website and ERP, software: the platform","The creator line: a platform for people"],
+   sl:["Your stage, on every screen.","From stage to platform.","Where you're seen."],
+   sa:["منصّتك على المسرح وعلى الشاشة","من المسرح إلى المنصّة"],
+   fam:"Minassa · Minassa Events · Minassa Digital · Minassa Labs",
+   vis:"A raised step shape that is also a screen: stage and platform in one form.",
+   voice:"Bold · Local · Modern",
+   watch:"منصة is used in many Saudi names (and government platforms), so it's generic and hard to register on its own."}
+ ]
+};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function card(o){
+  const cls=o.v==="rej"?"card rej":(o.v==="top"?"card star br":"card");
+  const chip=o.v==="top"?"chip top":o.v==="short"?"chip short":o.v==="rej"?"chip rej":"chip";
+  const isAr=/[؀-ۿ]/.test(o.s);
+  return `<div class="${cls}"><div class="top"><div class="nm">${esc(o.n)}</div><span class="${chip}">${esc(o.l)}</span></div>`+
+   (o.s?`<div class="sc${isAr?" ar":""}" style="text-align:${isAr?"right":"left"}">${esc(o.s)}</div>`:"")+
+   `<div class="mn">${esc(o.m)}</div>`+
+   `<div class="slg"><div class="lb">Slogan</div><div class="en">“${esc(o.sl)}”</div>${o.sa?`<div class="ar sa">${esc(o.sa)}</div>`:""}</div>`+
+   `<div class="lb">Brand link</div><div class="ft">${esc(o.rel)}</div>`+
+   `<div class="gl"><div class="lb">In the brand guideline</div>${esc(o.g)}</div>`+
+   (o.v!=="rej"?voteBar(o.n):"")+`</div>`;
+}
+const key=n=>String(n).toLowerCase();
+function voteBar(n){
+  return `<div class="vote" data-name="${esc(key(n))}"><button type="button" data-v="like">Like</button><button type="button" data-v="maybe">Maybe</button><button type="button" data-v="no">No</button><span class="other"></span></div>`;
+}
+document.querySelector('[data-set="r1"]').innerHTML=D.r1.map(card).join("");
+document.querySelector('[data-set="r1c"]').innerHTML=D.r1c.map(card).join("");
+document.querySelector('[data-set="myth"]').innerHTML=D.myth.map(card).join("");
+document.querySelector('[data-set="muses"]').innerHTML=D.muses.map(card).join("");
+document.querySelector('[data-set="new"]').innerHTML=D.nw.map(card).join("");
+document.getElementById("greekT").innerHTML=D.greek.map(r=>`<tr><td>${r[0].toUpperCase()}</td><td>${r[1]}</td><td>${r[2]}</td><td style="color:var(--tx)">“${r[3]}”</td><td style="color:var(--mut)">${r[4]}</td><td style="color:${/crowded/.test(r[5])?"var(--dim)":"inherit"}">${r[5]}</td><td>${voteBar(r[0])}</td></tr>`).join("");
+document.getElementById("rejT").innerHTML=D.rej.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td style="font-family:var(--mono);font-size:12px;color:var(--mut)">${r[2]}</td></tr>`).join("");
+document.getElementById("rankG").innerHTML=D.rank.map((r,i)=>{
+  const C=2*Math.PI*38, frac=[.92,.78,.66,.56,.48][i];
+  return `<div class="rk${i===0?" first br":""}"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="#2a2a2a" stroke-dasharray="1 3"/><circle cx="50" cy="50" r="38" fill="none" stroke="#2a2a2a" stroke-width="4"/><circle cx="50" cy="50" r="38" fill="none" stroke="${i===0?"#ff3131":"#d8d8d8"}" stroke-width="4" stroke-dasharray="${C*frac} ${C}" transform="rotate(-90 50 50)"/><text x="50" y="58" text-anchor="middle" fill="#f2f2f2" font-family="Rajdhani,sans-serif" font-size="26" font-weight="600">0${i+1}</text></svg><div class="nm">${r[0]}</div><div class="ft">${r[1]}</div></div>`;
+}).join("");
+document.getElementById("guideG").innerHTML=D.guide.map((o,i)=>`
+ <article class="gp br">
+  <div class="gph"><div><span class="chip ${i===0?"top":"short"}">Guideline page · ${String(i+1).padStart(2,"0")}</span><div class="gnm">${esc(o.n)} <span class="ar">${esc(o.s)}</span></div><div class="say">SAY IT · ${esc(o.say)}</div></div>
+   <div class="voice"><div class="lb">Voice</div>${esc(o.voice)}</div></div>
+  <div class="gcols">
+   <div><div class="lb">1 · The name story</div><p class="story">${esc(o.story)}</p>
+        <div class="lb">2 · What it says about the company</div><ul>${o.means.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+   <div><div class="lb">3 · Slogans</div><ul class="sls">${o.sl.map(x=>`<li>“${esc(x)}”</li>`).join("")}${o.sa.map(x=>`<li class="ar">${esc(x)}</li>`).join("")}</ul>
+        <div class="lb">4 · Brand family</div><p>${esc(o.fam)}</p>
+        <div class="lb">5 · Visual cue for the logo</div><p>${esc(o.vis)}</p>
+        <div class="lb">6 · Watch out</div><p class="warn">${esc(o.watch)}</p></div>
+  </div>
+ </article>`).join("");
+const all=[...D.r1,...D.r1c,...D.myth,...D.nw].length+D.greek.length+D.muses.length-2; // Melete and Kairos counted once
+document.getElementById("cNames").textContent=all;
+document.getElementById("cRej").textContent=D.rej.length;
+
+/* ================= Questionnaire: Baraa & Nawaf ================= */
+const API="https://ma-decision-register.baraakhaldi-ma.workers.dev";
+const WHO={baraa:"Baraa",nawaf:"Nawaf"};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
-let ans={}, user=null, submitted=null;
-const keep=()=>user&&store.set('draft-'+user,JSON.stringify(ans));
-const isDone=id=>{const a=ans[id]||{};return a.s==='a'||a.s==='r'||(a.s==='e'&&(a.edit||'').trim())};
 
-function render(){
- let h='',last='';
- for(const r of ROWS){
-  if(r.t!==last){h+=`<h2>${r.t} · ${TOPICS[r.t]}</h2>`;last=r.t}
-  const a=ans[r.id]||{};
-  h+=`<div class="card" data-id="${r.id}" data-s="${a.s||''}">
-   <div class="head"><span class="id">${r.id}</span><span class="lb ${r.l}">${LN[r.l]}</span></div>
-   <div class="tx">${esc(r.x)}</div>
-   <div class="acts" role="group" aria-label="Answer for ${r.id}">${[['a','Accept'],['e','Edit'],['r','Reject']].map(([v,n])=>`<button type="button" data-v="${v}" aria-pressed="${a.s===v}">${n}</button>`).join('')}</div>
-   ${a.s==='e'?`<div class="field"><label for="ed-${r.id}">How it should read / your answer</label><textarea id="ed-${r.id}" data-f="edit" rows="2">${esc(a.edit!=null?a.edit:r.x)}</textarea></div>`:''}
-   <div class="field"><label for="nt-${r.id}">Note (optional)</label><textarea id="nt-${r.id}" data-f="note" rows="1">${esc(a.note||'')}</textarea></div>
-  </div>`;
- }
- $('#list').innerHTML=h;progress();
+// Every votable name, with what the decision section needs about it
+const NAMES=new Map();
+function addName(n,o){const k=key(n);const cur=NAMES.get(k)||{n,ar:"",sl:[],sa:[],vis:"",voice:""};
+  if(o.ar&&!cur.ar)cur.ar=o.ar; (o.sl||[]).forEach(x=>x&&!cur.sl.includes(x)&&cur.sl.push(x)); (o.sa||[]).forEach(x=>x&&!cur.sa.includes(x)&&cur.sa.push(x));
+  if(o.vis)cur.vis=o.vis; if(o.voice)cur.voice=o.voice; NAMES.set(k,cur)}
+const arOf=s=>(String(s||"").match(/[؀-ۿ][؀-ۿ\sً-ٟ]*[؀-ۿ]|[؀-ۿ]/)||[""])[0].trim();
+[...D.r1,...D.r1c,...D.myth,...D.muses,...D.nw].filter(o=>o.v!=="rej").forEach(o=>addName(o.n,{ar:arOf(o.s),sl:[o.sl],sa:[o.sa]}));
+D.greek.forEach(r=>addName(r[0],{sl:[r[3]]}));
+D.guide.forEach(o=>NAMES.has(key(o.n))&&addName(o.n,{ar:arOf(o.s),sl:o.sl,sa:o.sa,vis:o.vis,voice:o.voice}));
+const TOTAL=NAMES.size;
+
+const VOICE=["Calm","Prepared","Precise","Bright","Confident","Clear","Bold","Warm","Local","Modern","Forward","Wise","Strategic","Measured","Guiding","Reassuring","Sharp","Timely","Energetic","Playful","Premium"];
+const COLOURS=[["blackred","Black & red (like this page)"],["warm","Warm: sand, gold, earth"],["light","Light & minimal"],["other","Something else (write it below)"]];
+const DISPLAY=[["both","Latin + Arabic together"],["latin","Latin only"],["arabic","Arabic only"]];
+const FAMILY=["Studio","Digital","Labs","Events","Ventures"];
+const blank=()=>({votes:{},decision:{},submitted:false,submitted_at:null});
+
+let who=store.get("names-who"); if(!WHO[who])who=null;
+let me=blank(), server={baraa:null,nawaf:null}, saveT=null, saving=Promise.resolve(), dirty=false;
+const other=()=>who?(who==="baraa"?"nawaf":"baraa"):null;
+const setSt=t=>$("#saveSt").textContent=t;
+
+async function fetchAll(){const r=await fetch(API+"/names",{cache:"no-store"});const j=await r.json();if(!r.ok)throw new Error(j.error||r.status);server={baraa:j.baraa,nawaf:j.nawaf};}
+function loadMe(){
+  const srv=server[who]||blank();
+  let local=null;try{local=JSON.parse(store.get("names-draft-"+who)||"null")}catch(e){}
+  // an unsaved local copy wins if it is newer than what the server has
+  if(local&&(!srv.updated_at||local._local>Date.parse(srv.updated_at))){me=local;dirty=true;queueSave(0)}else{me=JSON.parse(JSON.stringify(srv));dirty=false}
+  me.votes=me.votes||{};me.decision=me.decision||{};
 }
-function progress(){
- const n=ROWS.filter(r=>isDone(r.id)).length;
- $('#barI').style.width=n/ROWS.length*100+'%';$('#progT').textContent=`${n} of ${ROWS.length} answered`;
+function changed(){me._local=Date.now();store.set("names-draft-"+who,JSON.stringify(me));dirty=true;queueSave(1000)}
+function queueSave(ms){clearTimeout(saveT);setSt("SAVING…");saveT=setTimeout(()=>{saving=saving.then(doSave)},ms)}
+async function doSave(){
+  if(!who||!dirty)return;const w=who,body=JSON.parse(JSON.stringify(me));delete body._local;dirty=false;
+  try{const r=await fetch(API+"/names/"+w,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});const j=await r.json();
+    if(!r.ok)throw new Error(j.error||r.status);server[w]=j;if(!dirty&&w===who)store.del("names-draft-"+w);setSt("SAVED ✓");paintCmp()}
+  catch(e){dirty=true;setSt("NOT SAVED — RETRYING");clearTimeout(saveT);saveT=setTimeout(()=>{saving=saving.then(doSave)},8000)}
 }
-$('#list').addEventListener('click',ev=>{
- const b=ev.target.closest('button[data-v]');if(!b)return;
- const id=b.closest('.card').dataset.id,v=b.dataset.v,a=ans[id]=ans[id]||{};
- a.s=a.s===v?null:v;
- if(a.s==='e'&&a.edit==null)a.edit=ROWS.find(r=>r.id===id).x;
- keep();render();
- if(a.s==='e'){const t=document.getElementById('ed-'+id);t.focus();t.select()}
-});
-$('#list').addEventListener('input',ev=>{
- const t=ev.target;if(t.tagName!=='TEXTAREA')return;
- const id=t.closest('.card').dataset.id;(ans[id]=ans[id]||{})[t.dataset.f]=t.value;keep();progress();
- t.closest('.card').classList.remove('missing');
+
+function vlabel(v){return v==="like"?"Like":v==="maybe"?"Maybe":v==="no"?"No":"—"}
+function paintVotes(){
+  const o=other(), ov=(o&&server[o]&&server[o].votes)||{};
+  $$(".vote").forEach(el=>{const k=el.dataset.name,v=me.votes[k];
+    el.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(v===b.dataset.v)));
+    el.querySelector(".other").innerHTML=o?`${WHO[o]}: <b class="${ov[k]||""}">${vlabel(ov[k])}</b>`:"";
+    const c=el.closest(".card");if(c){c.classList.toggle("voted-like",v==="like");c.classList.toggle("voted-no",v==="no")}});
+  const n=[...NAMES.keys()].filter(k=>me.votes[k]).length;
+  $("#qprogT").textContent=`${n} OF ${TOTAL} NAMES VOTED`;$("#qprogI").style.width=(n/TOTAL*100)+"%";
+}
+document.addEventListener("click",ev=>{
+  const b=ev.target.closest(".vote button");if(!b)return;
+  if(!who){$("#picker").scrollIntoView({behavior:"smooth",block:"center"});return}
+  const k=b.closest(".vote").dataset.name;me.votes[k]=me.votes[k]===b.dataset.v?null:b.dataset.v;if(!me.votes[k])delete me.votes[k];
+  changed();paintVotes();fillTop3();paintCmp();
 });
 
-async function api(method,body){
- const r=await fetch(`${API}/answers/${encodeURIComponent(user)}`,{method,cache:'no-store',headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});
- const j=await r.json().catch(()=>({}));
- if(r.status===404&&method==='GET')return null;
- if(!r.ok)throw new Error(j.error||('Server said '+r.status));
- return j;
+// ---- decision form ----
+function opts(el,items,type,name,sel){el.innerHTML=items.map(([v,t])=>`<label class="o"><input type="${type}" name="${name}" value="${esc(v)}" data-k="${name}"${(type==="radio"?sel===v:(sel||[]).includes(v))?" checked":""}> ${esc(t)}</label>`).join("")}
+function fillTop3(){
+  const d=me.decision,liked=[...NAMES].filter(([k])=>me.votes[k]==="like"),rest=[...NAMES].filter(([k])=>me.votes[k]!=="like");
+  const o=list=>list.sort((a,b)=>a[1].n.localeCompare(b[1].n)).map(([k,x])=>`<option value="${esc(k)}">${esc(x.n.toUpperCase())}</option>`).join("");
+  [0,1,2].forEach(i=>{const s=$("#t"+i);if(document.activeElement===s)return;
+    s.innerHTML=`<option value="">— choose —</option>`+(liked.length?`<optgroup label="You liked">${o(liked)}</optgroup>`:"")+`<optgroup label="${liked.length?"Other names":"All names"}">${o(rest)}</optgroup>`;
+    s.value=d["top"+i]||""});
 }
-async function signIn(name){
- user=name;$('#who').textContent=user;
- try{ans=JSON.parse(store.get('draft-'+user)||'null')}catch(e){ans=null}
- submitted=null;
- const data=await api('GET');
- if(data&&data.lines){submitted=data;if(!ans)ans=JSON.parse(JSON.stringify(data.lines))}
- ans=ans||{};
- $('#signin').hidden=true;$('#done').hidden=true;$('#form').hidden=false;$('#msg').textContent='';render();
- if(submitted&&!store.get('draft-'+user))showDone();
+function fillDecision(){
+  const d=me.decision;fillTop3();
+  const t=NAMES.get(d.top0||"");
+  $("#slHint").textContent=t?`Slogans written for ${t.n.toUpperCase()}. Pick one, or write your own below.`:"Choose your 1st choice above to see its slogans.";
+  opts($("#slOpts"),t?[...t.sl.map(x=>[x,"“"+x+"”"]),...t.sa.map(x=>[x,x])]:[],"radio","sloganPick",d.sloganPick);
+  $("#slOpts").querySelectorAll("label").forEach(l=>{if(/[؀-ۿ]/.test(l.textContent)){l.classList.add("ar")}});
+  $("#voiceSug").hidden=!(t&&t.voice);if(t&&t.voice)$("#voiceSug").textContent="Guideline suggests: "+t.voice;
+  opts($("#voiceOpts"),VOICE.map(x=>[x,x]),"checkbox","voice",d.voice);
+  $("#visSug").hidden=!(t&&t.vis);if(t&&t.vis)$("#visSug").textContent="Suggested visual cue: "+t.vis;
+  $$('input[name="logo"]').forEach(r=>r.checked=d.logo===r.value);
+  opts($("#colOpts"),COLOURS,"radio","colour",d.colour);
+  opts($("#dispOpts"),DISPLAY,"radio","display",d.display);
+  opts($("#famOpts"),FAMILY.map(x=>[x,(t?t.n+" ":"")+x]),"checkbox","family",d.family);
+  $("#arSp").placeholder=t&&t.ar?t.ar:"";
+  ["logoText","colourText","arabic","comments","newNames","sloganEn","sloganAr"].forEach(k=>{const el=$(`[data-k="${k}"]`);if(document.activeElement!==el)el.value=d[k]||""});
+  $("#subMsg").textContent=me.submitted?`Submitted ${new Date(me.submitted_at).toLocaleString()}. You can still change anything; it keeps saving.`:"Not submitted yet.";
 }
-$('#signin').onsubmit=async ev=>{
- ev.preventDefault();const m=$('#smsg');m.className='msg';
- const name=$('#uname').value.trim().toLowerCase();
- if(!/^[a-z0-9_-]{2,30}$/.test(name)){m.className='msg err';m.textContent='Use 2–30 letters, numbers, - or _ (no spaces).';return}
- $('#go').disabled=true;m.textContent='Loading…';
- try{await signIn(name);store.set('user',name);m.textContent=''}
- catch(e){m.className='msg err';m.textContent='Could not reach the server — '+e.message}
- $('#go').disabled=false;
+$("#decForm").addEventListener("input",onDec);$("#decForm").addEventListener("change",onDec);
+function onDec(ev){
+  const el=ev.target,k=el.dataset.k;if(!k)return;
+  if(!who){ev.preventDefault();$("#picker").scrollIntoView({behavior:"smooth",block:"center"});return}
+  const d=me.decision;
+  if(el.type==="checkbox"){let vals=$$(`input[name="${k}"]:checked`).map(x=>x.value);
+    if(k==="voice"&&vals.length>3){el.checked=false;vals=vals.filter(v=>v!==el.value)} d[k]=vals}
+  else if(el.type==="radio"){if(el.checked)d[k]=el.value}
+  else if(k.startsWith("top")){d[k]=el.value}
+  else d[k]=el.value;
+  changed();
+  if(k==="top0"&&ev.type==="change")fillDecision();
+  if(ev.type==="change")paintCmp();
+}
+$("#submitB").onclick=()=>{
+  if(!who){$("#picker").scrollIntoView({behavior:"smooth",block:"center"});return}
+  const d=me.decision,tops=[d.top0,d.top1,d.top2];
+  if(tops.some(x=>!x)){$("#subMsg").textContent="Please choose all three of your top 3 first.";$("#t0").scrollIntoView({behavior:"smooth",block:"center"});return}
+  if(new Set(tops).size<3){$("#subMsg").textContent="Your top 3 has the same name twice.";return}
+  me.submitted=true;me.submitted_at=new Date().toISOString();changed();queueSave(0);fillDecision();
 };
-$('#out').onclick=()=>{store.del('user');user=null;$('#form').hidden=true;$('#done').hidden=true;$('#signin').hidden=false;$('#uname').value='';$('#uname').focus()};
-$('#send').onclick=async()=>{
- const msg=$('#msg');msg.className='msg';
- const miss=ROWS.filter(r=>!isDone(r.id));
- document.querySelectorAll('.card').forEach(c=>c.classList.toggle('missing',miss.some(r=>r.id===c.dataset.id)));
- if(miss.length){msg.className='msg err';msg.textContent=`Please answer all lines first — ${miss.length} left (${miss.map(r=>r.id).join(', ')}).`;document.querySelector('.card.missing').scrollIntoView({behavior:'smooth',block:'center'});return}
- const btn=$('#send');btn.disabled=true;msg.textContent='Submitting…';
- try{
-  const lines={};
-  for(const r of ROWS){const a=ans[r.id];lines[r.id]={s:a.s};if(a.s==='e')lines[r.id].edit=a.edit.trim();if((a.note||'').trim())lines[r.id].note=a.note.trim()}
-  submitted=await api('PUT',{submitted:true,lines});
-  store.del('draft-'+user);showDone();
- }catch(e){msg.className='msg err';msg.textContent='Not saved — '+(e.message||'could not reach the server')+'. Try again.'}
- btn.disabled=false;
-};
-const SN={a:'Accepted',e:'Edited',r:'Rejected'};
-function showDone(){
- $('#form').hidden=true;$('#done').hidden=false;window.scrollTo(0,0);
- $('#doneT').textContent=`Saved for ${user} on ${new Date(submitted.submitted_at).toLocaleString()}.`;
- $('#sum').innerHTML=ROWS.map(r=>{const a=submitted.lines[r.id]||{};return `<li><b>${r.id} · ${SN[a.s]||'—'}</b>${a.s==='e'?' — '+esc(a.edit):''}${a.note?`<br><span class="msg">Note: ${esc(a.note)}</span>`:''}</li>`}).join('');
+
+// ---- comparison ----
+const nm=k=>k?(NAMES.get(k)||{n:k}).n.toUpperCase():"—";
+function dval(p,f){const d=(p&&p.decision)||{};switch(f){
+  case"top":return[d.top0,d.top1,d.top2].some(Boolean)?`<ol>${[d.top0,d.top1,d.top2].map(x=>`<li>${esc(nm(x))}</li>`).join("")}</ol>`:"—";
+  case"slogan":return esc([d.sloganPick,d.sloganEn,d.sloganAr].filter(Boolean).join(" · ")||"—");
+  case"voice":return esc((d.voice||[]).join(", ")||"—");
+  case"logo":return esc(d.logo==="keep"?"Keep suggested cue"+(d.logoText?" · "+d.logoText:""):(d.logoText||(d.logo==="own"?"Own idea":"—")));
+  case"colour":return esc(((COLOURS.find(c=>c[0]===d.colour)||[,""])[1]+(d.colourText?" · "+d.colourText:"")).replace(/^ · /,"")||"—");
+  case"display":return esc((DISPLAY.find(c=>c[0]===d.display)||[,"—"])[1]);
+  case"arabic":return esc(d.arabic||"—");case"family":return esc((d.family||[]).join(", ")||"—");
+  case"comments":return esc(d.comments||"—");case"newNames":return esc(d.newNames||"—");}}
+function paintCmp(){
+  const b=who==="baraa"?me:server.baraa,n=who==="nawaf"?me:server.nawaf;
+  const st=p=>!p?"not started":p.submitted?"submitted ✓":"in progress";
+  const vb=(b&&b.votes)||{},vn=(n&&n.votes)||{};
+  const both=[...NAMES.keys()].filter(k=>vb[k]==="like"&&vn[k]==="like").map(nm);
+  const split=[...NAMES.keys()].filter(k=>(vb[k]==="like"&&vn[k]==="no")||(vb[k]==="no"&&vn[k]==="like")).map(k=>`${nm(k)} (B: ${vlabel(vb[k])}, N: ${vlabel(vn[k])})`);
+  const rows=[["Top 3","top"],["Slogan","slogan"],["Voice","voice"],["Logo","logo"],["Colour","colour"],["Name shown as","display"],["Arabic spelling","arabic"],["Brand family","family"],["Comments","comments"],["New names","newNames"]];
+  $("#cmp").innerHTML=`<div class="cmp" style="margin-bottom:14px">
+    <div class="box br"><h3>You both liked · ${both.length}</h3><p>${both.length?esc(both.join(" · ")):'<span class="lock">None yet</span>'}</p></div>
+    <div class="box br"><h3>Split: one Like, one No · ${split.length}</h3><p>${split.length?esc(split.join(" · ")):'<span class="lock">None yet</span>'}</p></div></div>
+    <table class="cmpt"><thead><tr><th></th><th>Baraa · ${st(b)}</th><th>Nawaf · ${st(n)}</th></tr></thead>
+    <tbody>${rows.map(([t,f])=>`<tr><td>${t}</td><td>${dval(b,f)}</td><td>${dval(n,f)}</td></tr>`).join("")}</tbody></table>`;
 }
-$('#again').onclick=()=>{ans=JSON.parse(JSON.stringify(submitted.lines));keep();$('#done').hidden=true;$('#form').hidden=false;$('#msg').textContent='';render()};
+
+// ---- who ----
+function paintWho(){
+  $$("[data-who]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.who===who)));
+  $$(".whohud button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.who===who)));
+  $("#picker").hidden=!!who;$("#qprog").hidden=!who;
+  $("#decSub").textContent=who?`Answering as ${WHO[who]}. Everything saves as you go; press Submit when you're done.`:"Pick Baraa or Nawaf at the top first.";
+}
+async function setWho(w){
+  if(w===who)return;await saving;if(dirty){clearTimeout(saveT);await doSave()}
+  who=w;store.set("names-who",w);loadMe();paintWho();paintVotes();fillDecision();paintCmp();setSt(me.updated_at?"SAVED ✓":"");
+}
+document.addEventListener("click",ev=>{const b=ev.target.closest("[data-who]");if(b)setWho(b.dataset.who)});
 
 (async()=>{
- const saved=store.get('user');
- if(saved){try{await signIn(saved);return}catch(e){}}
- $('#form').hidden=true;$('#signin').hidden=false;
+  paintWho();paintVotes();fillDecision();paintCmp();setSt("LOADING…");
+  try{await fetchAll();setSt("")}catch(e){setSt("OFFLINE — VOTES KEPT IN THIS BROWSER")}
+  if(who){loadMe();paintVotes();fillDecision()}paintCmp();
+  setInterval(async()=>{try{await fetchAll();paintVotes();paintCmp()}catch(e){}},30000);
 })();
+window.addEventListener("beforeunload",e=>{if(dirty){e.preventDefault();e.returnValue=""}});
+
 </script>
 </body>
 </html>
