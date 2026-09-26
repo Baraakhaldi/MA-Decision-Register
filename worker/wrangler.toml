@@ -1,0 +1,10 @@
+name = "ma-decision-register"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+
+[vars]
+REPO = "Baraakhaldi/MA-Decision-Register"
+BRANCH = "main"
+
+# The GitHub token is set as a secret, never in this file:
+#   npx wrangler secret put GITHUB_TOKEN

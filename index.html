@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -39,7 +39,7 @@ h2{font:600 13px var(--sans);text-transform:uppercase;letter-spacing:.4px;color:
 .acts button[aria-pressed="true"][data-v="e"]{background:var(--orange);border-color:var(--orange);color:#fff}
 .acts button[aria-pressed="true"][data-v="r"]{background:var(--red);border-color:var(--red);color:#fff}
 label{font-size:12px;color:var(--label2)}
-textarea,input[type=password]{font:15px/20px var(--sans);color:var(--label);background:var(--fill4);border:1px solid var(--sep);border-radius:9px;padding:7px 10px;width:100%}
+textarea,input[type=text]{font:15px/20px var(--sans);color:var(--label);background:var(--fill4);border:1px solid var(--sep);border-radius:9px;padding:7px 10px;width:100%}
 textarea{resize:vertical;min-height:38px}
 .field{display:grid;gap:4px}
 button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var(--tint) 45%,transparent);outline-offset:1px}
@@ -48,8 +48,6 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px soli
 .primary:disabled{opacity:.5;cursor:default}
 .msg{font-size:14px;color:var(--label2)}
 .msg.err{color:var(--redA)}
-.token{display:grid;gap:8px;font-size:14px;line-height:20px}
-.token a{color:var(--link)}
 .done{background:var(--surface);border-radius:12px;padding:20px;margin-top:22px}
 .done h2{margin:0 0 6px;font:700 20px var(--sans);color:var(--label);text-transform:none;letter-spacing:0}
 .sum{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:8px;font-size:15px}
@@ -61,21 +59,23 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px soli
 <main>
  <h1>Decisions for Nawaf</h1>
  <p class="intro">These are the lines about your time, your job and both founders' shares. Baraa's position is written in each line. For each one choose <b>Accept</b>, <b>Edit</b> (write how it should read, or your answer to an open question) or <b>Reject</b>. Add a note if you want. When all 13 are answered, press <b>Submit</b>.</p>
- <div id="form">
+ <form class="submit" id="signin" hidden>
+  <label for="uname" style="font-size:15px;color:var(--label)"><b>Sign up or sign in with a username</b> â€” no password. Use the same username later to see or change your answers.</label>
+  <input type="text" id="uname" placeholder="e.g. nawaf" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="30">
+  <button class="primary" id="go">Continue</button>
+  <div class="msg" id="smsg"></div>
+ </form>
+ <div id="form" hidden>
+  <div class="msg" style="margin:4px 0">Signed in as <b id="who"></b> Â· <button class="link" id="out" type="button">Switch user</button></div>
   <div class="prog"><div class="bar"><i id="barI"></i></div><span id="progT"></span></div>
   <div id="list"></div>
   <div class="submit">
-   <div class="token" id="tokenBox" hidden>
-    <div><b>One-time step:</b> to save your answers into the repo, paste a GitHub token.
-     Create a <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=Decision%20form" target="_blank" rel="noopener">classic token</a> with only the <i>public_repo</i> box ticked (you must have accepted the invite to the repo first). It stays in this browser only.</div>
-    <input type="password" id="tok" placeholder="Paste token (ghp_…)" autocomplete="off">
-   </div>
    <button class="primary" id="send">Submit</button>
    <div class="msg" id="msg"></div>
   </div>
  </div>
  <div class="done" id="done" hidden>
-  <h2>Submitted — thank you</h2>
+  <h2>Submitted â€” thank you</h2>
   <div class="msg" id="doneT"></div>
   <ul class="sum" id="sum"></ul>
   <p><button class="link" id="again">Change my answers</button></p>
@@ -85,34 +85,31 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px soli
 const TOPICS={"07":"Sales","09":"Money","11":"Legal and admin","12":"Baraa and Nawaf"};
 const LN={P:'Provisional',O:'Open'};
 const ROWS=[
-{id:"N07.01",t:"07",l:"O",x:"How many contacts the list holds — Nawaf writes it in P1"},
+{id:"N07.01",t:"07",l:"O",x:"How many contacts the list holds â€” Nawaf writes it in P1"},
 {id:"N09.01",t:"09",l:"O",x:"The seed repayment order between the two founders"},
 {id:"N09.02",t:"09",l:"O",x:"When founders may start taking money out, and in what form"},
 {id:"N11.01",t:"11",l:"P",x:"The founders' documents are signed, and reviewed by Saudi legal and tax advisers"},
 {id:"N11.02",t:"11",l:"P",x:"A separate leaver rule, worded by the Saudi advisers"},
-{id:"N12.01",t:"12",l:"O",x:"Nawaf's job on Topic 12 page 06, widened on 24 Sep — he adds his own lines"},
-{id:"N12.02",t:"12",l:"P",x:"Three expectations: a reply within an agreed time, a warning before peaks, a short regular update — trust first"},
+{id:"N12.01",t:"12",l:"O",x:"Nawaf's job on Topic 12 page 06, widened on 24 Sep â€” he adds his own lines"},
+{id:"N12.02",t:"12",l:"P",x:"Three expectations: a reply within an agreed time, a warning before peaks, a short regular update â€” trust first"},
 {id:"N12.03",t:"12",l:"O",x:"Nawaf's own form: his availability and what he expects from Baraa"},
-{id:"N12.04",t:"12",l:"P",x:"Shares vest over four years with a one-year cliff, for both — Baraa's answer, not discussed on 24 Sep"},
-{id:"N12.05",t:"12",l:"O",x:"Does anything move the 60 / 40 later — results at each band, or a yearly review?"},
+{id:"N12.04",t:"12",l:"P",x:"Shares vest over four years with a one-year cliff, for both â€” Baraa's answer, not discussed on 24 Sep"},
+{id:"N12.05",t:"12",l:"O",x:"Does anything move the 60 / 40 later â€” results at each band, or a yearly review?"},
 {id:"N12.06",t:"12",l:"O",x:"Whether the 15% commission to Nawaf stays, now that he is a fully operating founder"},
 {id:"N12.07",t:"12",l:"P",x:"The third party's money counts as Baraa's own cash"},
 {id:"N12.08",t:"12",l:"P",x:"Baraa is the second contact on every client"}];
-const GH='https://api.github.com/repos/Baraakhaldi/MA-Decision-Register', FILE='data/nawaf.json';
+const API='https://ma-decision-register.baraakhaldi-ma.workers.dev';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const enc=s=>{let x='';new TextEncoder().encode(s).forEach(c=>x+=String.fromCharCode(c));return btoa(x)};
-const dec=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,'')),c=>c.charCodeAt(0)));
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
-let ans={}, token=store.get('dr-gh-token'), submitted=null;
-try{ans=JSON.parse(store.get('nawaf-draft')||'{}')}catch(e){}
-const keep=()=>store.set('nawaf-draft',JSON.stringify(ans));
+let ans={}, user=null, submitted=null;
+const keep=()=>user&&store.set('draft-'+user,JSON.stringify(ans));
 const isDone=id=>{const a=ans[id]||{};return a.s==='a'||a.s==='r'||(a.s==='e'&&(a.edit||'').trim())};
 
 function render(){
  let h='',last='';
  for(const r of ROWS){
-  if(r.t!==last){h+=`<h2>${r.t} · ${TOPICS[r.t]}</h2>`;last=r.t}
+  if(r.t!==last){h+=`<h2>${r.t} Â· ${TOPICS[r.t]}</h2>`;last=r.t}
   const a=ans[r.id]||{};
   h+=`<div class="card" data-id="${r.id}" data-s="${a.s||''}">
    <div class="head"><span class="id">${r.id}</span><span class="lb ${r.l}">${LN[r.l]}</span></div>
@@ -127,7 +124,6 @@ function render(){
 function progress(){
  const n=ROWS.filter(r=>isDone(r.id)).length;
  $('#barI').style.width=n/ROWS.length*100+'%';$('#progT').textContent=`${n} of ${ROWS.length} answered`;
- $('#tokenBox').hidden=!!token;
 }
 $('#list').addEventListener('click',ev=>{
  const b=ev.target.closest('button[data-v]');if(!b)return;
@@ -143,54 +139,59 @@ $('#list').addEventListener('input',ev=>{
  t.closest('.card').classList.remove('missing');
 });
 
-async function getFile(auth){
- const r=await fetch(`${GH}/contents/${FILE}?ref=main&t=${Date.now()}`,{cache:'no-store',headers:Object.assign({Accept:'application/vnd.github+json'},auth?{Authorization:'Bearer '+auth}:{})});
- if(r.status===404)return{data:{},sha:null};
- if(!r.ok)throw new Error('read '+r.status);
- const j=await r.json();let data={};try{data=JSON.parse(dec(j.content))}catch(e){}
- return{data,sha:j.sha};
+async function api(method,body){
+ const r=await fetch(`${API}/answers/${encodeURIComponent(user)}`,{method,cache:'no-store',headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});
+ const j=await r.json().catch(()=>({}));
+ if(r.status===404&&method==='GET')return null;
+ if(!r.ok)throw new Error(j.error||('Server said '+r.status));
+ return j;
 }
+async function signIn(name){
+ user=name;$('#who').textContent=user;
+ try{ans=JSON.parse(store.get('draft-'+user)||'null')}catch(e){ans=null}
+ submitted=null;
+ const data=await api('GET');
+ if(data&&data.lines){submitted=data;if(!ans)ans=JSON.parse(JSON.stringify(data.lines))}
+ ans=ans||{};
+ $('#signin').hidden=true;$('#done').hidden=true;$('#form').hidden=false;$('#msg').textContent='';render();
+ if(submitted&&!store.get('draft-'+user))showDone();
+}
+$('#signin').onsubmit=async ev=>{
+ ev.preventDefault();const m=$('#smsg');m.className='msg';
+ const name=$('#uname').value.trim().toLowerCase();
+ if(!/^[a-z0-9_-]{2,30}$/.test(name)){m.className='msg err';m.textContent='Use 2â€“30 letters, numbers, - or _ (no spaces).';return}
+ $('#go').disabled=true;m.textContent='Loadingâ€¦';
+ try{await signIn(name);store.set('user',name);m.textContent=''}
+ catch(e){m.className='msg err';m.textContent='Could not reach the server â€” '+e.message}
+ $('#go').disabled=false;
+};
+$('#out').onclick=()=>{store.del('user');user=null;$('#form').hidden=true;$('#done').hidden=true;$('#signin').hidden=false;$('#uname').value='';$('#uname').focus()};
 $('#send').onclick=async()=>{
  const msg=$('#msg');msg.className='msg';
  const miss=ROWS.filter(r=>!isDone(r.id));
  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('missing',miss.some(r=>r.id===c.dataset.id)));
- if(miss.length){msg.className='msg err';msg.textContent=`Please answer all lines first — ${miss.length} left (${miss.map(r=>r.id).join(', ')}).`;document.querySelector('.card.missing').scrollIntoView({behavior:'smooth',block:'center'});return}
- const t=token||$('#tok').value.trim();
- if(!t){msg.className='msg err';msg.textContent='Paste your GitHub token above to submit.';$('#tok').focus();return}
- const btn=$('#send');btn.disabled=true;msg.textContent='Submitting…';
+ if(miss.length){msg.className='msg err';msg.textContent=`Please answer all lines first â€” ${miss.length} left (${miss.map(r=>r.id).join(', ')}).`;document.querySelector('.card.missing').scrollIntoView({behavior:'smooth',block:'center'});return}
+ const btn=$('#send');btn.disabled=true;msg.textContent='Submittingâ€¦';
  try{
-  const lines={};const at=new Date().toISOString();
-  for(const r of ROWS){const a=ans[r.id];lines[r.id]={s:a.s,at};if(a.s==='e')lines[r.id].edit=a.edit.trim();if((a.note||'').trim())lines[r.id].note=a.note.trim()}
-  const body={submitted:true,submitted_at:at,lines};
-  let ok=false;
-  for(let i=0;i<3&&!ok;i++){
-   const cur=await getFile(t);
-   const put={message:'Nawaf submitted his answers',branch:'main',content:enc(JSON.stringify(body,null,1))};if(cur.sha)put.sha=cur.sha;
-   const r=await fetch(`${GH}/contents/${FILE}`,{method:'PUT',headers:{Accept:'application/vnd.github+json',Authorization:'Bearer '+t,'Content-Type':'application/json'},body:JSON.stringify(put)});
-   if(r.ok){ok=true;break}
-   if(r.status===401){throw new Error('That token is not valid — check you copied all of it.')}
-   if(r.status===403||r.status===404){throw new Error('That token cannot write to the repo. Make sure you accepted the repo invite and ticked public_repo.')}
-   if(r.status!==409&&r.status!==422)throw new Error('GitHub said '+r.status+' — try again.');
-  }
-  if(!ok)throw new Error('Could not save — try again.');
-  token=t;store.set('dr-gh-token',t);store.del('nawaf-draft');
-  submitted=body;showDone();
- }catch(e){msg.className='msg err';msg.textContent=e.message||'Could not reach GitHub — try again.'}
+  const lines={};
+  for(const r of ROWS){const a=ans[r.id];lines[r.id]={s:a.s};if(a.s==='e')lines[r.id].edit=a.edit.trim();if((a.note||'').trim())lines[r.id].note=a.note.trim()}
+  submitted=await api('PUT',{submitted:true,lines});
+  store.del('draft-'+user);showDone();
+ }catch(e){msg.className='msg err';msg.textContent='Not saved â€” '+(e.message||'could not reach the server')+'. Try again.'}
  btn.disabled=false;
 };
 const SN={a:'Accepted',e:'Edited',r:'Rejected'};
 function showDone(){
  $('#form').hidden=true;$('#done').hidden=false;window.scrollTo(0,0);
- $('#doneT').textContent='Saved to the repo on '+new Date(submitted.submitted_at).toLocaleString()+'. Baraa can see your answers now.';
- $('#sum').innerHTML=ROWS.map(r=>{const a=submitted.lines[r.id]||{};return `<li><b>${r.id} · ${SN[a.s]||'—'}</b>${a.s==='e'?' — '+esc(a.edit):''}${a.note?`<br><span class="msg">Note: ${esc(a.note)}</span>`:''}</li>`}).join('');
+ $('#doneT').textContent=`Saved for ${user} on ${new Date(submitted.submitted_at).toLocaleString()}.`;
+ $('#sum').innerHTML=ROWS.map(r=>{const a=submitted.lines[r.id]||{};return `<li><b>${r.id} Â· ${SN[a.s]||'â€”'}</b>${a.s==='e'?' â€” '+esc(a.edit):''}${a.note?`<br><span class="msg">Note: ${esc(a.note)}</span>`:''}</li>`}).join('');
 }
 $('#again').onclick=()=>{ans=JSON.parse(JSON.stringify(submitted.lines));keep();$('#done').hidden=true;$('#form').hidden=false;$('#msg').textContent='';render()};
 
-render();
 (async()=>{
- try{const {data}=await getFile(token);
-  if(data.submitted&&data.lines){submitted=data;if(!store.get('nawaf-draft'))showDone()}
- }catch(e){}
+ const saved=store.get('user');
+ if(saved){try{await signIn(saved);return}catch(e){}}
+ $('#form').hidden=true;$('#signin').hidden=false;
 })();
 </script>
 </body>
