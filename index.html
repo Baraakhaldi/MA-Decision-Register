@@ -819,7 +819,9 @@ document.addEventListener("click",ev=>{const a=ev.target.closest("[data-jump]");
 function paintProg(){const c=w=>ORDER.filter(k=>people[w].votes[k]).length;$("#pB").textContent=`B ${c("baraa")}/${TOTAL}`;$("#pN").textContent=`N ${c("nawaf")}/${TOTAL}`}
 
 // the page turns into the form when the names section fills the screen
-new IntersectionObserver(es=>es.forEach(e=>document.body.classList.toggle("formmode",e.intersectionRatio>0.5)),{threshold:[0,.5,1]}).observe($("#names"));
+const namesEl=$("#names");
+function formMode(){const r=namesEl.getBoundingClientRect();document.body.classList.toggle("formmode",r.top<innerHeight*.35&&r.bottom>innerHeight*.65)}
+addEventListener("scroll",formMode,{passive:true});addEventListener("resize",formMode);formMode();
 
 /* ---------- decision: two columns ---------- */
 const VOICE=["Calm","Prepared","Precise","Bright","Confident","Clear","Bold","Warm","Local","Modern","Forward","Wise","Strategic","Measured","Guiding","Reassuring","Sharp","Timely","Energetic","Playful","Premium"];
