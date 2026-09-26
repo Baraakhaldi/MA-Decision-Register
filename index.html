@@ -76,41 +76,102 @@ td:first-child{font-weight:700;letter-spacing:.05em}
 .picker p{color:var(--mut);font-size:15px;margin-top:4px;font-weight:400;letter-spacing:0;text-transform:none}
 .picker button{font-family:var(--disp);font-size:26px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;min-width:160px;padding:12px 22px;background:var(--panel);color:var(--tx);border:1px solid var(--line2);cursor:pointer}
 .picker button:hover{border-color:var(--red);color:var(--red)}
-/* form questions */
-.qhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--mut);text-transform:uppercase}
-.qhead button{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:transparent;color:var(--mut);border:1px solid var(--line2);padding:4px 10px;cursor:pointer}
-.qlist{border-top:1px solid var(--line2)}
-.qi{display:grid;grid-template-columns:62px 1fr auto;gap:4px 18px;padding:18px 4px;border-bottom:1px solid var(--line);align-items:start}
-.qi:hover{background:rgba(255,255,255,.015)}
-.qi.voted-like{box-shadow:inset 3px 0 var(--red)}
-.qi.voted-maybe{box-shadow:inset 3px 0 #d8d8d8}
-.qi.voted-no .qt{opacity:.5}
-.qn{font-family:var(--mono);color:var(--red);font-size:14px;padding-top:6px}
-.qt .nm{font-size:27px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
-.qt .nm .ar,.qt .nm .gk{font-size:19px;color:var(--mut);letter-spacing:0;margin-left:10px;font-weight:600;text-transform:none}
-.qt .nm .gk{font-family:var(--disp)}
-.qt .mn{color:#cfcfcf;font-size:16px;margin-top:2px}
-.vote{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
-.vbtns{display:flex;gap:6px}
-.vote button{font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--tx);border:1px solid var(--line2);padding:8px 14px;min-width:76px;min-height:38px;cursor:pointer}
-.vote button:hover{border-color:var(--mut)}
-.vote button[aria-pressed="true"][data-v="like"]{background:var(--red);border-color:var(--red);color:#000}
-.vote button[aria-pressed="true"][data-v="maybe"]{background:#d8d8d8;border-color:#d8d8d8;color:#000}
-.vote button[aria-pressed="true"][data-v="no"]{background:#2a2a2a;border-color:var(--dim);color:var(--mut);text-decoration:line-through}
-.vote .other{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--mut);text-transform:uppercase}
-.vote .other b{font-weight:400;color:var(--tx)}
-.vote .other b.like{color:var(--red)}
-details.dt{grid-column:2/4}
-details.dt summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--mut);text-transform:uppercase;list-style:none;display:inline-block;padding:4px 0}
-details.dt summary::-webkit-details-marker{display:none}
-details.dt summary::before{content:"▸ ";color:var(--red)}
-details.dt[open] summary::before{content:"▾ "}
-.dtb{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;margin-top:8px;border-left:2px solid var(--line2);padding:4px 0 4px 14px}
+/* ===== form mode: card deck ===== */
+:root{--like:#22c55e;--maybe:#f59e0b;--no:#6b7280;--card:#101012;--card2:#16161a;--rad:20px;--ui:'Inter','Segoe UI',system-ui,sans-serif}
+html{scroll-snap-type:y proximity}
+#names{min-height:100vh;scroll-snap-align:start;padding:0;border-top:0;display:flex;flex-direction:column;justify-content:center;position:relative}
+#names::before{content:"";position:absolute;inset:0 -100vw;background:radial-gradient(ellipse at 50% 40%,rgba(255,49,49,.07),transparent 60%);opacity:0;transition:opacity .6s;pointer-events:none;z-index:-1}
+body.formmode #names::before{opacity:1}
+body.formmode .hud nav,body.formmode .hud .crumb{display:none}
+.hud .formbar{display:none;margin-left:auto;gap:14px;align-items:center}
+body.formmode .hud .formbar{display:flex}
+.hud .wrap{transition:none}
+.stage{max-width:760px;width:100%;margin:0 auto;padding:78px 0 30px}
+.stagehead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.stagehead h2{font-size:28px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.stagehead h2 span{color:var(--red)}
+.stagehead .hint{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--mut);text-transform:uppercase}
+.deck{position:relative;perspective:1400px}
+.deck .ghost{position:absolute;left:0;right:0;top:0;bottom:0;border-radius:var(--rad);background:var(--card);border:1px solid var(--line);pointer-events:none}
+.deck .g1{transform:translateY(10px) scale(.975);opacity:.55;z-index:0}
+.deck .g2{transform:translateY(20px) scale(.95);opacity:.3;z-index:-1}
+.qcard{position:relative;z-index:1;border-radius:var(--rad);background:var(--card);border:1px solid var(--line2);box-shadow:0 30px 80px rgba(0,0,0,.65),0 2px 0 rgba(255,255,255,.03) inset;overflow:hidden;transition:border-color .35s,box-shadow .35s,background .35s;transform-origin:50% 60%}
+.qcard.both-like{border-color:var(--like);box-shadow:0 30px 80px rgba(0,0,0,.65),0 0 0 1px var(--like),0 0 60px rgba(34,197,94,.18)}
+.qcard.both-no{border-color:var(--no)}
+.qcard.out{animation:cardOut .32s cubic-bezier(.5,0,.75,0) forwards}
+.qcard.outback{animation:cardOutBack .32s cubic-bezier(.5,0,.75,0) forwards}
+.qcard.in{animation:cardIn .42s cubic-bezier(.2,.8,.2,1)}
+.qcard.inback{animation:cardInBack .42s cubic-bezier(.2,.8,.2,1)}
+@keyframes cardOut{to{transform:translateX(-60px) rotateY(18deg) scale(.92);opacity:0;filter:blur(2px)}}
+@keyframes cardOutBack{to{transform:translateX(60px) rotateY(-18deg) scale(.92);opacity:0;filter:blur(2px)}}
+@keyframes cardIn{from{transform:translateY(22px) scale(.95);opacity:0;filter:blur(3px)}to{transform:none;opacity:1;filter:none}}
+@keyframes cardInBack{from{transform:translateX(-50px) scale(.95);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.qcard.out,.qcard.outback,.qcard.in,.qcard.inback{animation-duration:.01s}}
+.qc-top{padding:22px 24px 16px;background:linear-gradient(180deg,rgba(255,255,255,.035),transparent)}
+.qc-meta{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pill{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--mut)}
+.pill.q{background:var(--red);color:#000}
+.qc-name{font-size:clamp(36px,6vw,54px);font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1;margin-top:14px}
+.qc-alt{font-size:22px;color:var(--mut);margin-top:6px;display:flex;gap:14px;flex-wrap:wrap}
+.qc-alt .gk{font-family:var(--disp)}
+.qc-mean{font-size:18px;color:#d6d6d6;margin-top:10px}
+.qc-slogan{margin-top:12px;font-size:17px;color:var(--tx);font-weight:600}
+.qc-slogan .ar{display:block;color:#bdbdbd;font-weight:400;font-size:15px;margin-top:2px}
+.qc-cols{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.col{padding:16px 18px 18px;transition:background .35s}
+.col+.col{border-left:1px solid var(--line)}
+.col[data-v="like"]{background:rgba(34,197,94,.13)}
+.col[data-v="maybe"]{background:rgba(245,158,11,.13)}
+.col[data-v="no"]{background:rgba(107,114,128,.16)}
+.who{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:17px;color:#000;position:relative;flex:none}
+.av.b{background:linear-gradient(135deg,#ff6b6b,#ff3131)}
+.av.n{background:linear-gradient(135deg,#8ec5ff,#3b82f6)}
+.av i{position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:#3a3a3a;border:2px solid var(--card)}
+.col[data-v] .av i{background:var(--like)}
+.who .nm2{font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:17px;line-height:1.1}
+.who .st{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--mut);text-transform:uppercase}
+.col[data-v="like"] .st{color:var(--like)}.col[data-v="maybe"] .st{color:var(--maybe)}
+.ans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ans button{font-family:var(--disp);font-size:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:10px;border:1px solid var(--line2);background:rgba(255,255,255,.03);color:var(--tx);min-height:44px;cursor:pointer;transition:transform .12s,background .2s,border-color .2s}
+.ans button:hover{border-color:var(--mut)}
+.ans button:active{transform:scale(.96)}
+.ans button[aria-pressed="true"][data-v="like"]{background:var(--like);border-color:var(--like);color:#04130a}
+.ans button[aria-pressed="true"][data-v="maybe"]{background:var(--maybe);border-color:var(--maybe);color:#1a0f00}
+.ans button[aria-pressed="true"][data-v="no"]{background:var(--no);border-color:var(--no);color:#fff}
+.qc-foot{border-top:1px solid var(--line);padding:10px 18px}
+.qc-foot summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--mut);text-transform:uppercase;list-style:none;padding:4px 0}
+.qc-foot summary::-webkit-details-marker{display:none}
+.qc-foot summary::before{content:"▸ ";color:var(--red)}
+.qc-foot details[open] summary::before{content:"▾ "}
+.dtb{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;margin:8px 0 6px;max-height:34vh;overflow:auto;padding-right:6px}
 .dtb .full{grid-column:1/-1}
 .lb{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--red);text-transform:uppercase}
 .dtb p{font-size:15px;color:#d6d6d6}
-.dtb .en{font-size:17px;font-weight:600}
+.dtb .en{font-size:16px;font-weight:600}
 .dtb .gl{font-style:italic;color:#bdbdbd}
+.nav{display:flex;align-items:center;gap:12px;margin-top:26px}
+.nav .arrow{width:46px;height:46px;border-radius:50%;border:1px solid var(--line2);background:var(--card);color:var(--tx);font-size:20px;cursor:pointer;flex:none}
+.nav .arrow:hover{border-color:var(--red);color:var(--red)}
+.nav .arrow:disabled{opacity:.3;cursor:default}
+.dots{flex:1;display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+.dots button{width:14px;height:14px;border-radius:4px;border:1px solid var(--line2);padding:0;cursor:pointer;background:linear-gradient(90deg,var(--bl,#1b1b1b) 50%,var(--nl,#1b1b1b) 50%)}
+.dots button.cur{outline:2px solid var(--red);outline-offset:2px}
+.legend{display:flex;gap:16px;justify-content:center;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--mut);text-transform:uppercase;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.endcard{text-align:center;padding:40px 24px}
+.endcard h3{font-size:34px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.endcard p{color:var(--mut);margin:8px 0 20px}
+.btnp{display:inline-block;font-family:var(--disp);font-size:18px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--red);color:#000;border:0;border-radius:10px;padding:12px 26px;cursor:pointer;text-decoration:none}
+.prog2{display:flex;gap:14px;font-family:var(--mono);font-size:12px;letter-spacing:.08em}
+.prog2 b{font-weight:400}
+.prog2 .pb{color:#ff6b6b}.prog2 .pn{color:#8ec5ff}
+@media (max-width:640px){
+  .qc-cols{grid-template-columns:1fr}.col+.col{border-left:0;border-top:1px solid var(--line)}
+  .dtb{grid-template-columns:1fr}.qc-top{padding:18px 16px 12px}.col{padding:14px}
+  .dots button{width:11px;height:11px}.stage{padding-top:68px}
+}
+.hud nav{margin-left:auto;display:flex;gap:4px}.hud nav a{color:var(--mut);text-decoration:none;padding:4px 8px;border:1px solid transparent}.hud nav a:hover{color:var(--tx);border-color:var(--line2)}
 /* guideline pages */
 .gp{border:1px solid var(--line);background:var(--panel);padding:22px 22px 18px;margin-bottom:16px;scroll-margin-top:70px}
 .gph{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}
@@ -131,27 +192,26 @@ details.dt[open] summary::before{content:"▾ "}
 .tmpl{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
 .tmpl div{border:1px solid var(--line);background:var(--panel);padding:10px 12px;font-size:14px;color:var(--mut)}
 .tmpl b{display:block;color:var(--tx);font-size:16px}
-/* decision form */
-.dec{display:grid;gap:14px}
-.q{border:1px solid var(--line);background:var(--panel);padding:18px}
-.q h3{font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:.16em;color:var(--red);text-transform:uppercase;margin-bottom:6px}
-.q .hint{color:var(--mut);font-size:14.5px;margin-bottom:12px}
-.q label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--mut);text-transform:uppercase;margin:10px 0 4px}
-.q select,.q input[type=text],.q textarea{width:100%;background:#080808;color:var(--tx);border:1px solid var(--line2);padding:9px 10px;font-family:var(--disp);font-size:17px}
-.q textarea{min-height:80px;resize:vertical}
-.q input.ar{text-align:right}
-.q select:focus,.q input:focus,.q textarea:focus,button:focus-visible,summary:focus-visible{outline:2px solid var(--red);outline-offset:1px}
-.top3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.opts{display:flex;flex-wrap:wrap;gap:8px}
-.opts label.o{display:inline-flex;gap:8px;align-items:center;margin:0;border:1px solid var(--line2);padding:7px 12px;cursor:pointer;font-family:var(--disp);font-size:16px;letter-spacing:.02em;text-transform:none;color:var(--tx)}
+/* decision: two-column cards */
+.dec{display:grid;gap:16px}
+.dq{border-radius:var(--rad);background:var(--card);border:1px solid var(--line2);box-shadow:0 20px 50px rgba(0,0,0,.5);overflow:hidden}
+.dq>h3{font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:.16em;color:var(--red);text-transform:uppercase;padding:16px 20px 0}
+.dq>.hint{color:var(--mut);font-size:14.5px;padding:4px 20px 12px}
+.dq .qc-cols .col{padding:16px 18px}
+.dq label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--mut);text-transform:uppercase;margin:10px 0 4px}
+.dq select,.dq input[type=text],.dq textarea{width:100%;background:#080808;color:var(--tx);border:1px solid var(--line2);border-radius:10px;padding:9px 10px;font-family:var(--disp);font-size:17px}
+.dq textarea{min-height:80px;resize:vertical}
+.dq input.ar{text-align:right}
+.dq select:focus,.dq input:focus,.dq textarea:focus,button:focus-visible,summary:focus-visible{outline:2px solid var(--red);outline-offset:1px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opts label.o{display:inline-flex;gap:7px;align-items:center;margin:0;border:1px solid var(--line2);border-radius:999px;padding:6px 11px;cursor:pointer;font-family:var(--disp);font-size:15px;letter-spacing:.02em;text-transform:none;color:var(--tx)}
 .opts label.o:has(input:checked){border-color:var(--red);background:var(--redbg)}
 .opts input{accent-color:var(--red)}
-.sug{border-left:2px solid var(--red2);padding:4px 0 4px 10px;color:#bdbdbd;font-size:15px;font-style:italic;margin-bottom:6px}
-.submitbar{display:flex;gap:16px;align-items:center;flex-wrap:wrap;border:1px solid var(--red);padding:18px;background:var(--redbg)}
-.bigbtn{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--red);color:#000;border:0;padding:12px 30px;cursor:pointer}
-.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.cmpt td:first-child{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--mut);text-transform:uppercase;font-weight:400;width:22%}
-.cmpt ol{margin-left:22px}
+.sug{border-left:2px solid var(--red2);padding:3px 0 3px 10px;color:#bdbdbd;font-size:14px;font-style:italic;margin:4px 0 6px}
+.col.done{background:rgba(34,197,94,.08)}
+.subrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.subrow .msg{color:var(--mut);font-size:14.5px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
 .lock{color:var(--mut);font-style:italic}
 footer{border-top:1px solid var(--line);margin-top:50px;padding:22px 0 40px;font-size:13.5px;color:var(--mut)}
 footer .terms{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
@@ -166,9 +226,11 @@ footer b{color:var(--tx);font-weight:600}
 <body>
 
 <div class="hud"><div class="wrap">
-  <span><span class="dot"></span><b>COMPANY NAME</b> // QUESTIONNAIRE</span>
-  <span class="whohud">ANSWERING AS <button type="button" data-who="baraa">Baraa</button><button type="button" data-who="nawaf">Nawaf</button></span>
-  <span class="bar"><span id="saveSt"></span><span id="hudProg">0/0</span><span class="hbar"><i id="hudBar"></i></span></span>
+  <span class="crumb"><span class="dot"></span><b>COMPANY NAME</b> // QUESTIONNAIRE</span>
+  <span class="prog2"><b class="pb" id="pB"></b><b class="pn" id="pN"></b></span>
+  <span id="saveSt"></span>
+  <nav><a href="#brief">01</a><a href="#sources">02</a><a href="#method">03</a><a href="#names" style="color:var(--red)">04 FORM</a><a href="#rejected">05</a><a href="#guide">06</a><a href="#next">07</a><a href="#decide">08</a></nav>
+  <span class="formbar"><span style="color:var(--red)">FORM MODE</span><a href="#decide" style="color:var(--mut);text-decoration:none">Decision ↓</a></span>
 </div></div>
 
 <div class="wrap">
@@ -176,20 +238,15 @@ footer b{color:var(--tx);font-weight:600}
 <header class="hero">
   <span class="tag">Questionnaire · Baraa &amp; Nawaf</span>
   <h1>Name the <span>company</span></h1>
-  <p class="lede">Every name put forward so far, in one form. The names are shown in a random order every time the page opens, so none of them is favoured. Nothing is decided yet, and none of these names has been legally cleared.</p>
+  <p class="lede">Every name put forward so far, as a form for Baraa and Nawaf. The names are shown in a random order every time the page opens, so none of them is favoured. Nothing is decided yet, and none of these names has been legally cleared.</p>
   <div class="steps">
-    <div class="stp br"><div class="k">Step 1</div><div class="v">Choose who is answering</div></div>
-    <div class="stp br"><div class="k">Step 2</div><div class="v">Read the brief and background</div></div>
-    <div class="stp br"><div class="k">Step 3</div><div class="v">Vote on <span id="cNames">48</span> names: Like, Maybe or No</div></div>
+    <div class="stp br"><div class="k">Step 1</div><div class="v">Read the brief and background</div></div>
+    <div class="stp br"><div class="k">Step 2</div><div class="v">Scroll down: the page turns into a form</div></div>
+    <div class="stp br"><div class="k">Step 3</div><div class="v">Answer <span id="cNames">48</span> name cards in your own column</div></div>
     <div class="stp br"><div class="k">Step 4</div><div class="v">Your decision, then Submit</div></div>
   </div>
+  <p style="margin-top:26px"><a class="btnp" href="#names">Start the form ↓</a></p>
 </header>
-
-<div class="picker br" id="picker" hidden>
-  <h3>Who is answering?<p>Votes save as you click, and each of you can see the other's votes.</p></h3>
-  <button type="button" data-who="baraa">Baraa</button>
-  <button type="button" data-who="nawaf">Nawaf</button>
-</div>
 
 <!-- 01 BRIEF -->
 <section id="brief">
@@ -254,11 +311,23 @@ footer b{color:var(--tx);font-weight:600}
 </section>
 
 <!-- 04 THE FORM -->
-<section id="names">
-  <div class="sh"><span class="n">04</span><h2>The names</h2><span class="rule"></span></div>
-  <p class="sub">One question per name. Choose <b style="color:var(--tx)">Like</b>, <b style="color:var(--tx)">Maybe</b> or <b style="color:var(--tx)">No</b>; open "Show details" for the slogan, the link to the company and how it would read in the brand guideline.</p>
-  <div class="qhead"><span id="qprogT"></span><span><button type="button" id="openAll">Open all details</button> <button type="button" id="nextQ">Next unanswered ›</button></span></div>
-  <div class="qlist" id="qlist"></div>
+<section id="names" aria-label="The names">
+  <div class="stage">
+    <div class="stagehead">
+      <h2>The <span>names</span></h2>
+      <span class="hint">Click in your own column · ← → to move</span>
+    </div>
+    <div class="deck" id="deck">
+      <div class="ghost g1"></div><div class="ghost g2"></div>
+      <div class="qcard" id="qcard" aria-live="polite"></div>
+    </div>
+    <div class="nav">
+      <button type="button" class="arrow" id="prevB" aria-label="Previous name">‹</button>
+      <div class="dots" id="dots"></div>
+      <button type="button" class="arrow" id="nextB" aria-label="Next name">›</button>
+    </div>
+    <div class="legend"><span><i style="background:var(--like)"></i>Like</span><span><i style="background:var(--maybe)"></i>Maybe</span><span><i style="background:var(--no)"></i>No</span><span>Dot: left half Baraa · right half Nawaf</span></div>
+  </div>
 </section>
 
 <!-- 05 REJECTED -->
@@ -304,32 +373,9 @@ footer b{color:var(--tx);font-weight:600}
 <!-- 08 DECIDE -->
 <section id="decide">
   <div class="sh"><span class="n">08</span><h2>Your decision</h2><span class="rule"></span></div>
-  <p class="sub" id="decSub">Pick Baraa or Nawaf at the top first.</p>
-  <div class="dec" id="decForm">
-    <div class="q br"><h3>1 · Your top 3</h3><div class="hint">In order. Names you Liked are listed first.</div>
-      <div class="top3"><div><label for="t0">1st choice</label><select id="t0" data-k="top0"></select></div><div><label for="t1">2nd choice</label><select id="t1" data-k="top1"></select></div><div><label for="t2">3rd choice</label><select id="t2" data-k="top2"></select></div></div></div>
-    <div class="q br"><h3>2 · Favourite slogan for your 1st choice</h3><div class="hint" id="slHint">Choose your 1st choice above to see its slogans.</div>
-      <div class="opts" id="slOpts"></div>
-      <label for="slEn">Or write your own · English</label><input type="text" id="slEn" data-k="sloganEn">
-      <label for="slAr">Or write your own · Arabic</label><input type="text" class="ar" dir="rtl" id="slAr" data-k="sloganAr"></div>
-    <div class="q br"><h3>3 · Brand identity for your 1st choice</h3><div class="hint">How the brand should feel and look. Where a guideline page exists, its suggestion is shown.</div>
-      <label>Voice · pick up to 3 words</label><div class="sug" id="voiceSug" hidden></div><div class="opts" id="voiceOpts"></div>
-      <label>Logo direction</label><div class="sug" id="visSug" hidden></div>
-      <div class="opts"><label class="o"><input type="radio" name="logo" value="keep" data-k="logo"> Keep the suggested visual cue</label><label class="o"><input type="radio" name="logo" value="own" data-k="logo"> My own idea</label></div>
-      <textarea id="logoText" data-k="logoText" placeholder="Describe the logo you imagine (optional)"></textarea>
-      <label>Colour direction</label><div class="opts" id="colOpts"></div>
-      <input type="text" id="colText" data-k="colourText" placeholder="Colours you have in mind (optional)">
-      <label>How the name appears</label><div class="opts" id="dispOpts"></div>
-      <label for="arSp">Arabic spelling of the name</label><input type="text" class="ar" dir="rtl" id="arSp" data-k="arabic">
-      <label>Brand family · sub-names you like</label><div class="opts" id="famOpts"></div></div>
-    <div class="q br"><h3>4 · Comments</h3><textarea id="cm" data-k="comments" placeholder="Anything about the list or the next steps"></textarea></div>
-    <div class="q br"><h3>5 · Suggest new names</h3><textarea id="nn" data-k="newNames" placeholder="Names that aren't on the list, with a short reason"></textarea></div>
-    <div class="submitbar"><button type="button" class="bigbtn" id="submitB">Submit</button><div id="subMsg" style="color:var(--mut)"></div></div>
-  </div>
-  <div style="margin-top:26px">
-    <div class="sh" style="margin-bottom:12px"><span class="n">⇄</span><h2 style="font-size:22px">Baraa vs Nawaf</h2><span class="rule"></span></div>
-    <div id="cmp"></div>
-  </div>
+  <p class="sub">Same as the names: each of you fills in your own column. Everything saves as you type; press Submit in your column when you're done.</p>
+  <div class="dec" id="decForm"></div>
+  <div class="cmp" id="cmp"></div>
 </section>
 
 <footer>
@@ -606,11 +652,11 @@ const D = {
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const key=n=>String(n).toLowerCase();
-const isAr=s=>/[؀-ۿ]/.test(s||"");
-const arOf=s=>(String(s||"").match(/[؀-ۿ][؀-ۿ\sً-ٟ]*[؀-ۿ]|[؀-ۿ]/)||[""])[0].trim();
-const gkOf=s=>(String(s||"").match(/[Ͱ-Ͽἀ-῿]+/)||[""])[0];
+const isAr=s=>/[\u0600-\u06FF]/.test(s||"");
+const arOf=s=>(String(s||"").match(/[\u0600-\u06FF][\u0600-\u06FF\s\u064B-\u065F]*[\u0600-\u06FF]|[\u0600-\u06FF]/)||[""])[0].trim();
+const gkOf=s=>(String(s||"").match(/[\u0370-\u03FF\u1F00-\u1FFF]+/)||[""])[0];
 
-// ---- one equal list of names (duplicates merged, rejected ones left out) ----
+/* ---------- one equal list of names (duplicates merged, rejected ones left out) ---------- */
 const ROUND={r1:"Arabic & English",r1c:"Arabic words · round 2",greek:"Greek words",myth:"Greek mythology",muses:"The Muse family",nw:"New figures"};
 const ITEMS=new Map();
 function add(n,src,o){
@@ -626,29 +672,10 @@ const GUIDE=new Map(D.guide.map(o=>[key(o.n),o]));
 GUIDE.forEach((o,k)=>{const it=ITEMS.get(k);if(it){o.sl.forEach(x=>!it.sl.includes(x)&&it.sl.push(x));o.sa.forEach(x=>!it.sa.includes(x)&&it.sa.push(x))}});
 const TOTAL=ITEMS.size;
 $("#cNames").textContent=TOTAL;
-
-// random order, new every page load
 const ORDER=[...ITEMS.keys()];
 for(let i=ORDER.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ORDER[i],ORDER[j]]=[ORDER[j],ORDER[i]]}
 
-function qRow(k,i){
-  const it=ITEMS.get(k),gp=GUIDE.get(k);
-  const d=[];
-  it.sl.forEach((x,j)=>d.push(`<div${j?"":""}><div class="lb">Slogan</div><p class="en">“${esc(x)}”</p></div>`));
-  if(it.sa.length)d.push(`<div><div class="lb">Arabic slogan</div>${it.sa.map(x=>`<p class="en ar" style="text-align:right">${esc(x)}</p>`).join("")}</div>`);
-  if(it.m.length>1)d.push(`<div class="full"><div class="lb">Meaning</div>${it.m.slice(1).map(x=>`<p>${esc(x)}</p>`).join("")}</div>`);
-  if(it.rel.length)d.push(`<div class="full"><div class="lb">Link to the company</div>${it.rel.map(x=>`<p>${esc(x)}</p>`).join("")}</div>`);
-  if(it.g.length)d.push(`<div class="full"><div class="lb">In the brand guideline</div>${it.g.map(x=>`<p class="gl">${esc(x)}</p>`).join("")}</div>`);
-  if(it.read)d.push(`<div><div class="lb">Naming read</div><p>${esc(it.read)}</p></div>`);
-  d.push(`<div><div class="lb">From</div><p>${esc(it.from.join(" · "))}${gp?` · <a href="#gp-${esc(k)}">Guideline page ↓</a>`:""}</p></div>`);
-  return `<div class="qi" id="q-${esc(k)}" data-k="${esc(k)}">
-    <div class="qn">Q${String(i+1).padStart(2,"0")}</div>
-    <div class="qt"><div class="nm">${esc(it.n)}${it.ar?` <span class="ar">${esc(it.ar)}</span>`:""}${it.gk?` <span class="gk">${esc(it.gk)}</span>`:""}</div><div class="mn">${esc(it.m[0]||"")}</div></div>
-    <div class="vote" data-name="${esc(k)}"><div class="vbtns" role="group" aria-label="Your vote for ${esc(it.n)}"><button type="button" data-v="like">Like</button><button type="button" data-v="maybe">Maybe</button><button type="button" data-v="no">No</button></div><span class="other"></span></div>
-    <details class="dt"><summary>Show details</summary><div class="dtb">${d.join("")}</div></details>
-  </div>`;
-}
-$("#qlist").innerHTML=ORDER.map(qRow).join("");
+/* ---------- static sections ---------- */
 $("#rejT").innerHTML=D.rej.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("");
 $("#guideG").innerHTML=[...D.guide].sort((a,b)=>a.n.localeCompare(b.n)).map(o=>`
  <article class="gp br" id="gp-${esc(key(o.n))}">
@@ -662,149 +689,226 @@ $("#guideG").innerHTML=[...D.guide].sort((a,b)=>a.n.localeCompare(b.n)).map(o=>`
         <div class="lb">5 · Visual cue for the logo</div><p>${esc(o.vis)}</p>
         <div class="lb">6 · Watch out</div><p class="warn">${esc(o.watch)}</p></div>
   </div>
-  <p style="margin-top:8px"><a href="#q-${esc(key(o.n))}">↑ Back to its question</a></p>
+  <p style="margin-top:8px"><a href="#names" data-jump="${esc(key(o.n))}">↑ Open its card in the form</a></p>
  </article>`).join("");
-$("#openAll").onclick=()=>{const open=!$$("details.dt").every(d=>d.open);$$("details.dt").forEach(d=>d.open=open);$("#openAll").textContent=open?"Close all details":"Open all details"};
-$("#nextQ").onclick=()=>{const k=ORDER.find(k=>!me.votes[k]);if(k)document.getElementById("q-"+k).scrollIntoView({behavior:"smooth",block:"center"});else $("#decide").scrollIntoView({behavior:"smooth"})};
 
-/* ================= saving & sharing ================= */
+/* ---------- people, live data & saving ---------- */
 const API="https://ma-decision-register.baraakhaldi-ma.workers.dev";
-const WHO={baraa:"Baraa",nawaf:"Nawaf"};
+const P=["baraa","nawaf"], NAME={baraa:"Baraa",nawaf:"Nawaf"}, INIT={baraa:"B",nawaf:"N"};
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
-const VOICE=["Calm","Prepared","Precise","Bright","Confident","Clear","Bold","Warm","Local","Modern","Forward","Wise","Strategic","Measured","Guiding","Reassuring","Sharp","Timely","Energetic","Playful","Premium"];
-const COLOURS=[["blackred","Black & red (like this page)"],["warm","Warm: sand, gold, earth"],["light","Light & minimal"],["other","Something else (write it below)"]];
-const DISPLAY=[["both","Latin + Arabic together"],["latin","Latin only"],["arabic","Arabic only"]];
-const FAMILY=["Studio","Digital","Labs","Events","Ventures"];
 const blank=()=>({votes:{},decision:{},submitted:false,submitted_at:null});
-
-let who=store.get("names-who"); if(!WHO[who])who=null;
-let me=blank(), server={baraa:null,nawaf:null}, saveT=null, saving=Promise.resolve(), dirty=false;
-const other=()=>who?(who==="baraa"?"nawaf":"baraa"):null;
+const clone=o=>JSON.parse(JSON.stringify(o));
+let server={baraa:null,nawaf:null}, people={baraa:blank(),nawaf:blank()}, pend={baraa:null,nawaf:null};
+P.forEach(w=>{try{pend[w]=JSON.parse(store.get("names-pend-"+w)||"null")}catch(e){}});
+const timers={}, busy={};
 const setSt=t=>$("#saveSt").textContent=t;
+const pendOf=w=>pend[w]||(pend[w]={votes:{},dec:{},sub:null});
+const keepPend=w=>pend[w]?store.set("names-pend-"+w,JSON.stringify(pend[w])):store.del("names-pend-"+w);
+function applyPend(doc,p){
+  const d=clone(doc||blank());d.votes=d.votes||{};d.decision=d.decision||{};if(!p)return d;
+  for(const [k,v] of Object.entries(p.votes||{}))v?d.votes[k]=v:delete d.votes[k];
+  Object.assign(d.decision,p.dec||{});if(p.sub){d.submitted=true;d.submitted_at=p.sub}return d;
+}
+async function getAll(){const r=await fetch(API+"/names",{cache:"no-store"});const j=await r.json();if(!r.ok)throw new Error(j.error||r.status);return{baraa:j.baraa,nawaf:j.nawaf}}
+function schedule(w,ms){clearTimeout(timers[w]);setSt("SAVING…");timers[w]=setTimeout(()=>save(w),ms)}
+async function save(w){
+  if(busy[w]){schedule(w,400);return}
+  if(!pend[w])return;
+  busy[w]=true;const snap=clone(pend[w]);
+  try{
+    const latest=await getAll();                       // start from what is saved now,
+    const body=applyPend(latest[w],snap);              // then apply only the changes made here
+    const r=await fetch(API+"/names/"+w,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({votes:body.votes,decision:body.decision,submitted:!!body.submitted,submitted_at:body.submitted_at})});
+    const j=await r.json();if(!r.ok)throw new Error(j.error||r.status);
+    const cur=pend[w];
+    for(const k in snap.votes)if(cur.votes[k]===snap.votes[k])delete cur.votes[k];
+    for(const k in snap.dec)if(JSON.stringify(cur.dec[k])===JSON.stringify(snap.dec[k]))delete cur.dec[k];
+    if(cur.sub===snap.sub)cur.sub=null;
+    if(!Object.keys(cur.votes).length&&!Object.keys(cur.dec).length&&!cur.sub)pend[w]=null;
+    keepPend(w);server=latest;server[w]=j;refresh();setSt("SAVED ✓");
+  }catch(e){setSt("NOT SAVED — RETRYING");clearTimeout(timers[w]);timers[w]=setTimeout(()=>save(w),8000)}
+  finally{busy[w]=false}
+}
+function setVote(w,k,v){pendOf(w).votes[k]=v;people[w]=applyPend(people[w],{votes:{[k]:v}});keepPend(w);schedule(w,600)}
+function setDec(w,k,val){pendOf(w).dec[k]=val;people[w].decision[k]=val;keepPend(w);schedule(w,900)}
+function refresh(){P.forEach(w=>people[w]=applyPend(server[w],pend[w]));paintCard();paintDots();paintProg();fillDec();paintCmp()}
 
-async function fetchAll(){const r=await fetch(API+"/names",{cache:"no-store"});const j=await r.json();if(!r.ok)throw new Error(j.error||r.status);server={baraa:j.baraa,nawaf:j.nawaf}}
-function loadMe(){
-  const srv=server[who]||blank();let local=null;try{local=JSON.parse(store.get("names-draft-"+who)||"null")}catch(e){}
-  if(local&&(!srv.updated_at||local._local>Date.parse(srv.updated_at))){me=local;dirty=true;queueSave(0)}else{me=JSON.parse(JSON.stringify(srv));dirty=false}
-  me.votes=me.votes||{};me.decision=me.decision||{};
+/* ---------- the card deck ---------- */
+const VL={like:"Like",maybe:"Maybe",no:"No"};
+let idx=0, advT=null, animating=false;
+const card=$("#qcard");
+function colHTML(w,k){
+  const v=people[w].votes[k];
+  return `<div class="col" data-w="${w}"${v?` data-v="${v}"`:""}>
+    <div class="who"><span class="av ${INIT[w].toLowerCase()}">${INIT[w]}<i></i></span><div><div class="nm2">${NAME[w]}</div><div class="st">${v?VL[v]:"Not answered"}</div></div></div>
+    <div class="ans" role="group" aria-label="${NAME[w]}'s answer">${["like","maybe","no"].map(x=>`<button type="button" data-v="${x}" aria-pressed="${v===x}">${VL[x]}</button>`).join("")}</div>
+  </div>`;
 }
-function changed(){me._local=Date.now();store.set("names-draft-"+who,JSON.stringify(me));dirty=true;queueSave(1000)}
-function queueSave(ms){clearTimeout(saveT);setSt("SAVING…");saveT=setTimeout(()=>{saving=saving.then(doSave)},ms)}
-async function doSave(){
-  if(!who||!dirty)return;const w=who,body=JSON.parse(JSON.stringify(me));delete body._local;dirty=false;
-  try{const r=await fetch(API+"/names/"+w,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});const j=await r.json();
-    if(!r.ok)throw new Error(j.error||r.status);server[w]=j;if(!dirty&&w===who)store.del("names-draft-"+w);setSt("SAVED ✓");paintCmp()}
-  catch(e){dirty=true;setSt("NOT SAVED — RETRYING");clearTimeout(saveT);saveT=setTimeout(()=>{saving=saving.then(doSave)},8000)}
+function detailsHTML(it){
+  const d=[],gp=GUIDE.get(it.k);
+  it.sl.slice(1).forEach(x=>d.push(`<div><div class="lb">Slogan</div><p class="en">“${esc(x)}”</p></div>`));
+  it.sa.slice(1).forEach(x=>d.push(`<div><div class="lb">Arabic slogan</div><p class="en ar" style="text-align:right">${esc(x)}</p></div>`));
+  if(it.m.length>1)d.push(`<div class="full"><div class="lb">Meaning</div>${it.m.slice(1).map(x=>`<p>${esc(x)}</p>`).join("")}</div>`);
+  if(it.rel.length)d.push(`<div class="full"><div class="lb">Link to the company</div>${it.rel.map(x=>`<p>${esc(x)}</p>`).join("")}</div>`);
+  if(it.g.length)d.push(`<div class="full"><div class="lb">In the brand guideline</div>${it.g.map(x=>`<p class="gl">${esc(x)}</p>`).join("")}</div>`);
+  if(it.read)d.push(`<div><div class="lb">Naming read</div><p>${esc(it.read)}</p></div>`);
+  d.push(`<div><div class="lb">From</div><p>${esc(it.from.join(" · "))}${gp?` · <a href="#gp-${esc(it.k)}">Guideline page ↓</a>`:""}</p></div>`);
+  return d.join("");
 }
-
-const vlabel=v=>v==="like"?"Like":v==="maybe"?"Maybe":v==="no"?"No":"—";
-function paintVotes(){
-  const o=other(),ov=(o&&server[o]&&server[o].votes)||{};
-  $$(".vote").forEach(el=>{const k=el.dataset.name,v=me.votes[k];
-    el.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(v===b.dataset.v)));
-    el.querySelector(".other").innerHTML=o?`${WHO[o]}: <b class="${ov[k]||""}">${vlabel(ov[k])}</b>`:"";
-    const q=el.closest(".qi");["like","maybe","no"].forEach(x=>q.classList.toggle("voted-"+x,v===x))});
-  const n=ORDER.filter(k=>me.votes[k]).length;
-  $("#qprogT").textContent=who?`${n} of ${TOTAL} answered`:`${TOTAL} questions`;
-  $("#hudProg").textContent=`${n}/${TOTAL}`;$("#hudBar").style.width=(n/TOTAL*100)+"%";
+function cardHTML(i){
+  if(i>=TOTAL){
+    const c=w=>ORDER.filter(k=>people[w].votes[k]).length;
+    return `<div class="endcard"><span class="pill q">Done</span><h3 style="margin-top:14px">That's all ${TOTAL} names</h3>
+      <p>Baraa answered ${c("baraa")} of ${TOTAL} · Nawaf answered ${c("nawaf")} of ${TOTAL}</p>
+      <a class="btnp" href="#decide">Go to your decision ↓</a>
+      <p style="margin-top:16px"><button type="button" class="pill" data-first="baraa" style="border:0;cursor:pointer">Baraa's first unanswered</button> <button type="button" class="pill" data-first="nawaf" style="border:0;cursor:pointer">Nawaf's first unanswered</button></p></div>`;
+  }
+  const k=ORDER[i],it=ITEMS.get(k);
+  return `<div class="qc-top">
+      <div class="qc-meta"><span class="pill q">Q${String(i+1).padStart(2,"0")} / ${TOTAL}</span><span class="pill">${esc(it.from[0])}</span></div>
+      <div class="qc-name">${esc(it.n)}</div>
+      ${it.ar||it.gk?`<div class="qc-alt">${it.ar?`<span class="ar">${esc(it.ar)}</span>`:""}${it.gk?`<span class="gk">${esc(it.gk)}</span>`:""}</div>`:""}
+      <div class="qc-mean">${esc(it.m[0]||"")}</div>
+      ${it.sl[0]?`<div class="qc-slogan">“${esc(it.sl[0])}”${it.sa[0]?`<span class="ar">${esc(it.sa[0])}</span>`:""}</div>`:""}
+    </div>
+    <div class="qc-cols">${P.map(w=>colHTML(w,k)).join("")}</div>
+    <div class="qc-foot"><details><summary>Show details</summary><div class="dtb">${detailsHTML(it)}</div></details></div>`;
 }
-document.addEventListener("click",ev=>{
-  const b=ev.target.closest(".vote button");if(!b)return;
-  if(!who){$("#picker").scrollIntoView({behavior:"smooth",block:"center"});return}
-  const k=b.closest(".vote").dataset.name;me.votes[k]=me.votes[k]===b.dataset.v?null:b.dataset.v;if(!me.votes[k])delete me.votes[k];
-  changed();paintVotes();fillTop3();paintCmp();
+function paintCard(){
+  if(idx>=TOTAL||animating){if(idx>=TOTAL&&!animating)card.innerHTML=cardHTML(idx);return}
+  const k=ORDER[idx],vb=people.baraa.votes[k],vn=people.nawaf.votes[k];
+  card.querySelectorAll(".col").forEach(col=>{const w=col.dataset.w,v=people[w].votes[k];
+    v?col.setAttribute("data-v",v):col.removeAttribute("data-v");
+    col.querySelector(".st").textContent=v?VL[v]:"Not answered";
+    col.querySelectorAll(".ans button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===v)))});
+  card.classList.toggle("both-like",vb==="like"&&vn==="like");
+  card.classList.toggle("both-no",vb==="no"&&vn==="no");
+}
+function go(n,dir){
+  n=Math.max(0,Math.min(TOTAL,n));if(n===idx&&!dir)return;
+  clearTimeout(advT);const back=dir==="back"||(dir!=="fwd"&&n<idx);
+  animating=true;card.classList.remove("in","inback");card.classList.add(back?"outback":"out");
+  setTimeout(()=>{
+    idx=n;card.classList.remove("out","outback","both-like","both-no");
+    card.innerHTML=cardHTML(idx);animating=false;paintCard();paintDots();
+    void card.offsetWidth;card.classList.add(back?"inback":"in");
+    $("#prevB").disabled=idx===0;$("#nextB").disabled=idx>=TOTAL;
+  },300);
+}
+card.addEventListener("animationend",()=>card.classList.remove("in","inback"));
+card.addEventListener("click",ev=>{
+  const f=ev.target.closest("[data-first]");if(f){const i=ORDER.findIndex(k=>!people[f.dataset.first].votes[k]);if(i>=0)go(i,"back");return}
+  const b=ev.target.closest(".ans button");if(!b||idx>=TOTAL)return;
+  const w=b.closest(".col").dataset.w,k=ORDER[idx],cur=people[w].votes[k],v=cur===b.dataset.v?null:b.dataset.v;
+  setVote(w,k,v);paintCard();paintDots();paintProg();paintCmp();fillTop3All();
+  clearTimeout(advT);if(v)advT=setTimeout(()=>go(idx+1,"fwd"),520);
 });
+$("#prevB").onclick=()=>go(idx-1,"back");$("#nextB").onclick=()=>go(idx+1,"fwd");
+document.addEventListener("keydown",ev=>{
+  if(!document.body.classList.contains("formmode")||/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))return;
+  if(ev.key==="ArrowRight"){ev.preventDefault();go(idx+1,"fwd")}
+  if(ev.key==="ArrowLeft"){ev.preventDefault();go(idx-1,"back")}
+});
+const COL={like:"var(--like)",maybe:"var(--maybe)",no:"var(--no)"};
+$("#dots").innerHTML=ORDER.map((k,i)=>`<button type="button" data-i="${i}" aria-label="Q${i+1} ${esc(ITEMS.get(k).n)}" title="${esc(ITEMS.get(k).n)}"></button>`).join("");
+function paintDots(){$$("#dots button").forEach(b=>{const k=ORDER[+b.dataset.i];
+  b.style.setProperty("--bl",COL[people.baraa.votes[k]]||"#1b1b1b");b.style.setProperty("--nl",COL[people.nawaf.votes[k]]||"#1b1b1b");
+  b.classList.toggle("cur",+b.dataset.i===idx)})}
+$("#dots").addEventListener("click",ev=>{const b=ev.target.closest("button");if(b)go(+b.dataset.i)});
+document.addEventListener("click",ev=>{const a=ev.target.closest("[data-jump]");if(!a)return;const i=ORDER.indexOf(a.dataset.jump);if(i>=0){ev.preventDefault();$("#names").scrollIntoView({behavior:"smooth"});go(i)}});
+function paintProg(){const c=w=>ORDER.filter(k=>people[w].votes[k]).length;$("#pB").textContent=`B ${c("baraa")}/${TOTAL}`;$("#pN").textContent=`N ${c("nawaf")}/${TOTAL}`}
 
-// ---- decision ----
-function opts(el,items,type,name,sel){el.innerHTML=items.map(([v,t])=>`<label class="o${isAr(t)?" ar":""}"><input type="${type}" name="${name}" value="${esc(v)}" data-k="${name}"${(type==="radio"?sel===v:(sel||[]).includes(v))?" checked":""}> ${esc(t)}</label>`).join("")}
-function fillTop3(){
-  const d=me.decision,all=[...ITEMS.values()].sort((a,b)=>a.n.localeCompare(b.n));
-  const liked=all.filter(x=>me.votes[x.k]==="like"),rest=all.filter(x=>me.votes[x.k]!=="like");
+// the page turns into the form when the names section fills the screen
+new IntersectionObserver(es=>es.forEach(e=>document.body.classList.toggle("formmode",e.intersectionRatio>0.5)),{threshold:[0,.5,1]}).observe($("#names"));
+
+/* ---------- decision: two columns ---------- */
+const VOICE=["Calm","Prepared","Precise","Bright","Confident","Clear","Bold","Warm","Local","Modern","Forward","Wise","Strategic","Measured","Guiding","Reassuring","Sharp","Timely","Energetic","Playful","Premium"];
+const COLOURS=[["blackred","Black & red"],["warm","Warm: sand, gold, earth"],["light","Light & minimal"],["other","Something else"]];
+const DISPLAY=[["both","Latin + Arabic"],["latin","Latin only"],["arabic","Arabic only"]];
+const FAMILY=["Studio","Digital","Labs","Events","Ventures"];
+const who=w=>`<div class="who"><span class="av ${INIT[w].toLowerCase()}">${INIT[w]}<i></i></span><div><div class="nm2">${NAME[w]}</div><div class="st" data-st="${w}"></div></div></div>`;
+const radios=(w,k,items)=>`<div class="opts">${items.map(([v,t])=>`<label class="o"><input type="radio" name="${k}-${w}" value="${esc(v)}" data-w="${w}" data-k="${k}"> ${esc(t)}</label>`).join("")}</div>`;
+const checks=(w,k,items)=>`<div class="opts" data-group="${k}-${w}">${items.map(([v,t])=>`<label class="o${isAr(t)?" ar":""}"><input type="checkbox" name="${k}-${w}" value="${esc(v)}" data-w="${w}" data-k="${k}"> ${esc(t)}</label>`).join("")}</div>`;
+const text=(w,k,ph,ar)=>`<input type="text"${ar?' class="ar" dir="rtl"':""} data-w="${w}" data-k="${k}" placeholder="${esc(ph||"")}">`;
+const area=(w,k,ph)=>`<textarea data-w="${w}" data-k="${k}" placeholder="${esc(ph||"")}"></textarea>`;
+function dq(title,hint,body){return `<div class="dq"><h3>${title}</h3>${hint?`<div class="hint">${hint}</div>`:""}<div class="qc-cols">${P.map(w=>`<div class="col" data-w="${w}">${who(w)}${body(w)}</div>`).join("")}</div></div>`}
+$("#decForm").innerHTML=[
+  dq("1 · Top 3","In order. Names each of you Liked are listed first.",w=>[0,1,2].map(i=>`<label>${["1st","2nd","3rd"][i]} choice</label><select data-w="${w}" data-k="top${i}"></select>`).join("")),
+  dq("2 · Favourite slogan for your 1st choice","",w=>`<div data-slo="${w}"></div><label>Or write your own · English</label>${text(w,"sloganEn")}<label>Or write your own · Arabic</label>${text(w,"sloganAr","",1)}`),
+  dq("3 · Brand identity for your 1st choice","How the brand should feel and look. Where a guideline page exists, its suggestion is shown.",w=>
+    `<label>Voice · up to 3 words</label><div class="sug" data-vsug="${w}" hidden></div>${checks(w,"voice",VOICE.map(x=>[x,x]))}
+     <label>Logo direction</label><div class="sug" data-lsug="${w}" hidden></div>${radios(w,"logo",[["keep","Keep suggested cue"],["own","My own idea"]])}${area(w,"logoText","Describe the logo you imagine")}
+     <label>Colour direction</label>${radios(w,"colour",COLOURS)}${text(w,"colourText","Colours you have in mind")}
+     <label>How the name appears</label>${radios(w,"display",DISPLAY)}
+     <label>Arabic spelling of the name</label>${text(w,"arabic","",1)}
+     <label>Brand family · sub-names you like</label><div data-fam="${w}"></div>`),
+  dq("4 · Comments","",w=>area(w,"comments","Anything about the list or the next steps")),
+  dq("5 · Suggest new names","",w=>area(w,"newNames","Names that aren't on the list, with a short reason")),
+  dq("6 · Submit","Submitting marks your answers as finished. You can still change them afterwards.",w=>`<div class="subrow"><button type="button" class="btnp" data-submit="${w}">Submit ${NAME[w]}'s answers</button><span class="msg" data-sub="${w}"></span></div>`)
+].join("");
+const rendered={};
+function fillTop3(w){
+  const d=people[w].decision,all=[...ITEMS.values()].sort((a,b)=>a.n.localeCompare(b.n));
+  const liked=all.filter(x=>people[w].votes[x.k]==="like"),rest=all.filter(x=>people[w].votes[x.k]!=="like");
   const o=l=>l.map(x=>`<option value="${esc(x.k)}">${esc(x.n.toUpperCase())}</option>`).join("");
-  [0,1,2].forEach(i=>{const s=$("#t"+i);if(document.activeElement===s)return;
-    s.innerHTML=`<option value="">— choose —</option>`+(liked.length?`<optgroup label="You liked">${o(liked)}</optgroup>`:"")+`<optgroup label="${liked.length?"Other names":"All names (A–Z)"}">${o(rest)}</optgroup>`;
-    s.value=d["top"+i]||""});
+  const html=`<option value="">— choose —</option>`+(liked.length?`<optgroup label="Liked">${o(liked)}</optgroup>`:"")+`<optgroup label="${liked.length?"Other names":"All names (A–Z)"}">${o(rest)}</optgroup>`;
+  [0,1,2].forEach(i=>{const s=$(`select[data-w="${w}"][data-k="top${i}"]`);if(document.activeElement===s)return;if(s.dataset.h!==html){s.innerHTML=html;s.dataset.h=html}s.value=d["top"+i]||""});
 }
-function fillDecision(){
-  const d=me.decision;fillTop3();
-  const t=ITEMS.get(d.top0||""),gp=GUIDE.get(d.top0||"");
-  $("#slHint").textContent=t?`Slogans written for ${t.n.toUpperCase()}. Pick one, or write your own below.`:"Choose your 1st choice above to see its slogans.";
-  opts($("#slOpts"),t?[...t.sl.map(x=>[x,"“"+x+"”"]),...t.sa.map(x=>[x,x])]:[],"radio","sloganPick",d.sloganPick);
-  $("#voiceSug").hidden=!gp;if(gp)$("#voiceSug").textContent="Guideline page suggests: "+gp.voice;
-  opts($("#voiceOpts"),VOICE.map(x=>[x,x]),"checkbox","voice",d.voice);
-  $("#visSug").hidden=!gp;if(gp)$("#visSug").textContent="Suggested visual cue: "+gp.vis;
-  $$('input[name="logo"]').forEach(r=>r.checked=d.logo===r.value);
-  opts($("#colOpts"),COLOURS,"radio","colour",d.colour);
-  opts($("#dispOpts"),DISPLAY,"radio","display",d.display);
-  opts($("#famOpts"),FAMILY.map(x=>[x,(t?t.n+" ":"")+x]),"checkbox","family",d.family);
-  $("#arSp").placeholder=t&&t.ar?t.ar:"";
-  ["logoText","colourText","arabic","comments","newNames","sloganEn","sloganAr"].forEach(k=>{const el=$(`[data-k="${k}"]`);if(document.activeElement!==el)el.value=d[k]||""});
-  $("#subMsg").textContent=me.submitted?`Submitted ${new Date(me.submitted_at).toLocaleString()}. You can still change anything; it keeps saving.`:"Not submitted yet.";
+const fillTop3All=()=>P.forEach(fillTop3);
+function fillDec(){
+  P.forEach(w=>{
+    const d=people[w].decision,t=ITEMS.get(d.top0||""),gp=GUIDE.get(d.top0||"");
+    fillTop3(w);
+    if(rendered[w]!==(d.top0||"")){rendered[w]=d.top0||"";
+      $(`[data-slo="${w}"]`).innerHTML=t?`<label>Slogans for ${esc(t.n.toUpperCase())}</label>`+radios(w,"sloganPick",[...t.sl.map(x=>[x,"“"+x+"”"]),...t.sa.map(x=>[x,x])]):`<div class="hint" style="padding:0;color:var(--mut)">Choose a 1st choice first.</div>`;
+      $(`[data-fam="${w}"]`).innerHTML=checks(w,"family",FAMILY.map(x=>[x,(t?t.n+" ":"")+x]));
+      const vs=$(`[data-vsug="${w}"]`),ls=$(`[data-lsug="${w}"]`);vs.hidden=ls.hidden=!gp;
+      if(gp){vs.textContent="Guideline page suggests: "+gp.voice;ls.textContent="Suggested cue: "+gp.vis}
+      $(`input[data-w="${w}"][data-k="arabic"]`).placeholder=t&&t.ar?t.ar:"";
+    }
+    $$(`#decForm input[data-w="${w}"]`).forEach(el=>{const k=el.dataset.k,v=d[k];
+      if(el.type==="radio")el.checked=v===el.value;else if(el.type==="checkbox")el.checked=(v||[]).includes(el.value);else if(document.activeElement!==el)el.value=v||""});
+    $$(`#decForm textarea[data-w="${w}"]`).forEach(el=>{if(document.activeElement!==el)el.value=d[el.dataset.k]||""});
+    const p=people[w],n=ORDER.filter(k=>p.votes[k]).length;
+    $$(`[data-st="${w}"]`).forEach(e=>e.textContent=p.submitted?"Submitted ✓":`${n}/${TOTAL} names voted`);
+    $$(`#decForm .col[data-w="${w}"]`).forEach(c=>c.classList.toggle("done",!!p.submitted));
+    $(`[data-sub="${w}"]`).textContent=p.submitted?`Submitted ${new Date(p.submitted_at).toLocaleString()}.`:"Not submitted yet.";
+  });
 }
 function onDec(ev){
-  const el=ev.target,k=el.dataset.k;if(!k)return;
-  if(!who){$("#picker").scrollIntoView({behavior:"smooth",block:"center"});return}
-  const d=me.decision;
-  if(el.type==="checkbox"){let vals=$$(`input[name="${k}"]:checked`).map(x=>x.value);if(k==="voice"&&vals.length>3){el.checked=false;vals=vals.filter(v=>v!==el.value)}d[k]=vals}
-  else if(el.type==="radio"){if(el.checked)d[k]=el.value}
-  else d[k]=el.value;
-  changed();if(k==="top0"&&ev.type==="change")fillDecision();if(ev.type==="change")paintCmp();
+  const el=ev.target,w=el.dataset.w,k=el.dataset.k;if(!w||!k)return;
+  let val;
+  if(el.type==="checkbox"){val=$$(`input[name="${k}-${w}"]:checked`).map(x=>x.value);if(k==="voice"&&val.length>3){el.checked=false;val=val.filter(v=>v!==el.value)}}
+  else if(el.type==="radio"){if(!el.checked)return;val=el.value}
+  else val=el.value;
+  setDec(w,k,val);if(k==="top0"&&ev.type==="change")fillDec();if(ev.type==="change")paintCmp();
 }
 $("#decForm").addEventListener("input",onDec);$("#decForm").addEventListener("change",onDec);
-$("#submitB").onclick=()=>{
-  if(!who){$("#picker").scrollIntoView({behavior:"smooth",block:"center"});return}
-  const d=me.decision,tops=[d.top0,d.top1,d.top2];
-  if(tops.some(x=>!x)){$("#subMsg").textContent="Please choose all three of your top 3 first.";$("#t0").scrollIntoView({behavior:"smooth",block:"center"});return}
-  if(new Set(tops).size<3){$("#subMsg").textContent="Your top 3 has the same name twice.";return}
-  const left=ORDER.filter(k=>!me.votes[k]).length;
-  if(left&&!confirm(`You haven't voted on ${left} name${left>1?"s":""}. Submit anyway?`))return;
-  me.submitted=true;me.submitted_at=new Date().toISOString();changed();queueSave(0);fillDecision();
-};
-
-// ---- comparison ----
-const nm=k=>k?(ITEMS.get(k)||{n:k}).n.toUpperCase():"—";
-function dval(p,f){const d=(p&&p.decision)||{};switch(f){
-  case"top":return[d.top0,d.top1,d.top2].some(Boolean)?`<ol>${[d.top0,d.top1,d.top2].map(x=>`<li>${esc(nm(x))}</li>`).join("")}</ol>`:"—";
-  case"slogan":return esc([d.sloganPick,d.sloganEn,d.sloganAr].filter(Boolean).join(" · ")||"—");
-  case"voice":return esc((d.voice||[]).join(", ")||"—");
-  case"logo":return esc(d.logo==="keep"?"Keep suggested cue"+(d.logoText?" · "+d.logoText:""):(d.logoText||(d.logo==="own"?"Own idea":"—")));
-  case"colour":return esc(((COLOURS.find(c=>c[0]===d.colour)||[,""])[1]+(d.colourText?" · "+d.colourText:"")).replace(/^ · /,"")||"—");
-  case"display":return esc((DISPLAY.find(c=>c[0]===d.display)||[,"—"])[1]);
-  case"arabic":return esc(d.arabic||"—");case"family":return esc((d.family||[]).join(", ")||"—");
-  case"comments":return esc(d.comments||"—");case"newNames":return esc(d.newNames||"—")}}
+$("#decForm").addEventListener("click",ev=>{
+  const b=ev.target.closest("[data-submit]");if(!b)return;const w=b.dataset.submit,d=people[w].decision,tops=[d.top0,d.top1,d.top2],m=$(`[data-sub="${w}"]`);
+  if(tops.some(x=>!x)){m.textContent="Choose all three of the top 3 first.";return}
+  if(new Set(tops).size<3){m.textContent="The top 3 has the same name twice.";return}
+  const left=ORDER.filter(k=>!people[w].votes[k]).length;
+  if(left&&!confirm(`${NAME[w]} hasn't voted on ${left} name${left>1?"s":""}. Submit anyway?`))return;
+  const at=new Date().toISOString();pendOf(w).sub=at;people[w].submitted=true;people[w].submitted_at=at;keepPend(w);schedule(w,0);fillDec();
+});
 function paintCmp(){
-  const b=who==="baraa"?me:server.baraa,n=who==="nawaf"?me:server.nawaf;
-  const st=p=>!p||(!Object.keys(p.votes||{}).length&&!Object.keys(p.decision||{}).length)?"not started":p.submitted?"submitted ✓":"in progress";
-  const vb=(b&&b.votes)||{},vn=(n&&n.votes)||{},names=[...ITEMS.keys()].sort();
-  const both=names.filter(k=>vb[k]==="like"&&vn[k]==="like").map(nm);
-  const split=names.filter(k=>(vb[k]==="like"&&vn[k]==="no")||(vb[k]==="no"&&vn[k]==="like")).map(k=>`${nm(k)} (B: ${vlabel(vb[k])}, N: ${vlabel(vn[k])})`);
-  const rows=[["Top 3","top"],["Slogan","slogan"],["Voice","voice"],["Logo","logo"],["Colour","colour"],["Name shown as","display"],["Arabic spelling","arabic"],["Brand family","family"],["Comments","comments"],["New names","newNames"]];
-  $("#cmp").innerHTML=`<div class="cmp" style="margin-bottom:14px">
-    <div class="box br"><h3>You both liked · ${both.length}</h3><p>${both.length?esc(both.join(" · ")):'<span class="lock">None yet</span>'}</p></div>
-    <div class="box br"><h3>Split: one Like, one No · ${split.length}</h3><p>${split.length?esc(split.join(" · ")):'<span class="lock">None yet</span>'}</p></div></div>
-    <table class="cmpt"><thead><tr><th></th><th>Baraa · ${st(b)}</th><th>Nawaf · ${st(n)}</th></tr></thead>
-    <tbody>${rows.map(([t,f])=>`<tr><td>${t}</td><td>${dval(b,f)}</td><td>${dval(n,f)}</td></tr>`).join("")}</tbody></table>`;
+  const vb=people.baraa.votes,vn=people.nawaf.votes,names=[...ITEMS.values()].sort((a,b)=>a.n.localeCompare(b.n));
+  const both=names.filter(x=>vb[x.k]==="like"&&vn[x.k]==="like").map(x=>x.n.toUpperCase());
+  const split=names.filter(x=>(vb[x.k]==="like"&&vn[x.k]==="no")||(vb[x.k]==="no"&&vn[x.k]==="like")).map(x=>`${x.n.toUpperCase()} (B: ${VL[vb[x.k]]}, N: ${VL[vn[x.k]]})`);
+  $("#cmp").innerHTML=`<div class="box br"><h3>You both liked · ${both.length}</h3><p>${both.length?esc(both.join(" · ")):'<span class="lock">None yet</span>'}</p></div>
+    <div class="box br"><h3>Split: one Like, one No · ${split.length}</h3><p>${split.length?esc(split.join(" · ")):'<span class="lock">None yet</span>'}</p></div>`;
 }
 
-// ---- who ----
-function paintWho(){
-  $$("[data-who]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.who===who)));
-  $("#picker").hidden=!!who;
-  $("#decSub").textContent=who?`Answering as ${WHO[who]}. Everything saves as you go; press Submit when you're done.`:"Pick Baraa or Nawaf at the top first.";
-}
-async function setWho(w){
-  if(w===who)return;await saving;if(dirty){clearTimeout(saveT);await doSave()}
-  who=w;store.set("names-who",w);loadMe();paintWho();paintVotes();fillDecision();paintCmp();setSt(me.updated_at?"SAVED ✓":"");
-}
-document.addEventListener("click",ev=>{const b=ev.target.closest("[data-who]");if(b)setWho(b.dataset.who)});
-
+/* ---------- start ---------- */
+card.innerHTML=cardHTML(0);$("#prevB").disabled=true;
+refresh();setSt("LOADING…");
 (async()=>{
-  paintWho();paintVotes();fillDecision();paintCmp();setSt("LOADING…");
-  try{await fetchAll();setSt("")}catch(e){setSt("OFFLINE — KEPT IN THIS BROWSER")}
-  if(who){loadMe();paintVotes();fillDecision()}paintCmp();
-  setInterval(async()=>{try{await fetchAll();paintVotes();paintCmp()}catch(e){}},30000);
+  try{server=await getAll();setSt("")}catch(e){setSt("OFFLINE — KEPT IN THIS BROWSER")}
+  refresh();P.forEach(w=>pend[w]&&schedule(w,0));
+  setInterval(async()=>{try{server=await getAll();refresh()}catch(e){}},15000);
 })();
-window.addEventListener("beforeunload",e=>{if(dirty){e.preventDefault();e.returnValue=""}});
+window.addEventListener("beforeunload",e=>{if(pend.baraa||pend.nawaf){e.preventDefault();e.returnValue=""}});
 </script>
 </body>
 </html>
