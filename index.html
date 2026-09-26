@@ -271,13 +271,14 @@ footer b{color:var(--tx);font-weight:600}
 <!-- 02 SOURCES -->
 <section id="sources">
   <div class="sh"><span class="n">02</span><h2>Where the names came from</h2><span class="rule"></span></div>
-  <p class="sub">Six rounds of ideas. In the form below they are mixed together; each name's details say which round it came from.</p>
+  <p class="sub">Six rounds of ideas, plus names added by the founders. In the form below they are mixed together; each name's details say which round it came from.</p>
   <div class="src">
     <div class="box"><b>Arabic &amp; English</b><span>Arabic words and English pairs around roots, extension, method and impact.</span></div>
     <div class="box"><b>Arabic words · round 2</b><span>Arabic words that are easy to say in English, idea-led English names and coined blends.</span></div>
     <div class="box"><b>Greek words</b><span>Ancient Greek words for the journey from thought to form to execution.</span></div>
     <div class="box"><b>The methodology</b><span>Words taken from the company's phase-and-gate method (section 03).</span></div>
     <div class="box"><b>Greek mythology</b><span>Names of figures with a story attached, not translated words.</span></div>
+    <div class="box"><b>Added by the founders</b><span>Nahj and Persona, added on 26 Sep after the first votes.</span></div>
     <div class="box"><b>The Muse family &amp; new figures</b><span>The three original Muses as a name family, and other figures, with a quick web check.</span></div>
   </div>
   <div class="box" style="margin-top:14px"><h3>Literal Modern Greek, for reference</h3><p>Ennoia: concept · Dimiourgikotita: creativity · Dimiourgia: creation · Empnefsi: inspiration · Fantasia: imagination · Orama: vision. The literal words for "creativity" and "inspiration" are accurate but too awkward to use as company names.</p></div>
@@ -564,7 +565,7 @@ const D = {
  rej:[
   ["Mada · مدى","Saudi Arabia's national payment network","Claude"],
   ["Hawiya · Bayan","Too generic to protect","Claude"],
-  ["Qiwam · Nasq · Nabra · Talaqi · Nahj","Close names already used in Saudi/Gulf creative, advertising or events","ChatGPT"],
+  ["Qiwam · Nasq · Nabra · Talaqi","Close names already used in Saudi/Gulf creative, advertising or events (Nahj was also here; the founders added it back to the form)","ChatGPT"],
   ["Sema / Sima · σῆμα","Beautiful meaning (sign, mark), but several Saudi businesses already use Sima in branding, creative work, gifts and events","ChatGPT"],
   ["Morphe · Noema · Poiesis","Already used by creative and design businesses","ChatGPT"],
   ["Peitho","Several marketing and PR agencies already use it","Claude"],
@@ -656,8 +657,12 @@ const isAr=s=>/[\u0600-\u06FF]/.test(s||"");
 const arOf=s=>(String(s||"").match(/[\u0600-\u06FF][\u0600-\u06FF\s\u064B-\u065F]*[\u0600-\u06FF]|[\u0600-\u06FF]/)||[""])[0].trim();
 const gkOf=s=>(String(s||"").match(/[\u0370-\u03FF\u1F00-\u1FFF]+/)||[""])[0];
 
+D.added=[
+ {n:"Nahj",s:"نهج",m:"The method or approach.",v:"",l:"",sl:"",sa:"",rel:"Was on the rejected list: similar names are already used by Saudi and Gulf creative, advertising and events businesses. Added back by the founders; needs a careful trade-name and trademark check.",g:""},
+ {n:"Persona",s:"",m:"The personality presented.",v:"",l:"",sl:"",sa:"",rel:"",g:""}
+];
 /* ---------- one equal list of names (duplicates merged, rejected ones left out) ---------- */
-const ROUND={r1:"Arabic & English",r1c:"Arabic words · round 2",greek:"Greek words",myth:"Greek mythology",muses:"The Muse family",nw:"New figures"};
+const ROUND={r1:"Arabic & English",r1c:"Arabic words · round 2",greek:"Greek words",myth:"Greek mythology",muses:"The Muse family",nw:"New figures",added:"Added by the founders"};
 const ITEMS=new Map();
 function add(n,src,o){
   const k=key(n),it=ITEMS.get(k)||{k,n,ar:"",gk:"",m:[],sl:[],sa:[],rel:[],g:[],read:"",from:[]};
@@ -666,7 +671,7 @@ function add(n,src,o){
   push(it.m,o.m);push(it.sl,o.sl);push(it.sa,o.sa);push(it.rel,o.rel);push(it.g,o.g);push(it.from,ROUND[src]);
   if(o.read)it.read=o.read; ITEMS.set(k,it);
 }
-["r1","r1c","myth","muses","nw"].forEach(src=>D[src].filter(o=>o.v!=="rej").forEach(o=>add(o.n,src,{ar:arOf(o.s),gk:gkOf(o.s),m:o.m,sl:o.sl,sa:o.sa,rel:o.rel,g:/parent name/i.test(o.g)?"":o.g})));
+["r1","r1c","myth","muses","nw","added"].forEach(src=>D[src].filter(o=>o.v!=="rej").forEach(o=>add(o.n,src,{ar:arOf(o.s),gk:gkOf(o.s),m:o.m,sl:o.sl,sa:o.sa,rel:o.rel,g:/parent name/i.test(o.g)?"":o.g})));
 D.greek.forEach(r=>add(r[0],"greek",{gk:r[1],m:r[2],sl:r[3],rel:r[4],read:r[5]}));
 const GUIDE=new Map(D.guide.map(o=>[key(o.n),o]));
 GUIDE.forEach((o,k)=>{const it=ITEMS.get(k);if(it){o.sl.forEach(x=>!it.sl.includes(x)&&it.sl.push(x));o.sa.forEach(x=>!it.sa.includes(x)&&it.sa.push(x))}});
