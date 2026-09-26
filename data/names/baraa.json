@@ -2,10 +2,11 @@
  "who": "baraa",
  "votes": {
   "wasm": "no",
-  "minassa": "no"
+  "minassa": "no",
+  "sada": "no"
  },
  "decision": {},
  "submitted": false,
  "submitted_at": null,
- "updated_at": "2026-09-26T16:27:22.040Z"
+ "updated_at": "2026-09-26T16:27:25.823Z"
 }
