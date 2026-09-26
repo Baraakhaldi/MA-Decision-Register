@@ -24,10 +24,11 @@
   "second stage": "no",
   "eidos": "no",
   "metron": "no",
-  "melete": "no"
+  "melete": "no",
+  "khatt": "no"
  },
  "decision": {},
  "submitted": false,
  "submitted_at": null,
- "updated_at": "2026-09-26T17:17:31.554Z"
+ "updated_at": "2026-09-26T17:17:34.155Z"
 }
