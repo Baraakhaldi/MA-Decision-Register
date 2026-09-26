@@ -879,7 +879,7 @@ function dval(p,f){const d=(p&&p.decision)||{};switch(f){
   case"comments":return esc(d.comments||"—");case"newNames":return esc(d.newNames||"—");}}
 function paintCmp(){
   const b=who==="baraa"?me:server.baraa,n=who==="nawaf"?me:server.nawaf;
-  const st=p=>!p?"not started":p.submitted?"submitted ✓":"in progress";
+  const st=p=>!p||(!Object.keys(p.votes||{}).length&&!Object.keys(p.decision||{}).length)?"not started":p.submitted?"submitted ✓":"in progress";
   const vb=(b&&b.votes)||{},vn=(n&&n.votes)||{};
   const both=[...NAMES.keys()].filter(k=>vb[k]==="like"&&vn[k]==="like").map(nm);
   const split=[...NAMES.keys()].filter(k=>(vb[k]==="like"&&vn[k]==="no")||(vb[k]==="no"&&vn[k]==="like")).map(k=>`${nm(k)} (B: ${vlabel(vb[k])}, N: ${vlabel(vn[k])})`);
