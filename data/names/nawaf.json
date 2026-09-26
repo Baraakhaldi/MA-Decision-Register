@@ -39,10 +39,11 @@
   "athar": "like",
   "phanes": "no",
   "wasm": "no",
-  "mitos": "like"
+  "mitos": "like",
+  "plasis": "no"
  },
  "decision": {},
  "submitted": false,
  "submitted_at": null,
- "updated_at": "2026-09-26T17:18:14.349Z"
+ "updated_at": "2026-09-26T17:18:16.283Z"
 }
